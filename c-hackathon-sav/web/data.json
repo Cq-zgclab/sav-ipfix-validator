@@ -1,0 +1,67 @@
+{
+  "totalRecords": 3,
+  "records": [
+    {
+      "recordId": 1,
+      "timestamp": 1765369718000,
+      "ruleType": null,
+      "ruleTypeName": null,
+      "targetType": null,
+      "policyAction": null,
+      "rules": [
+        {
+          "interfaceId": 10,
+          "sourcePrefix": "192.0.2.0",
+          "prefixLength": 24
+        }
+      ]
+    },
+    {
+      "recordId": 2,
+      "timestamp": 1765369719000,
+      "ruleType": null,
+      "ruleTypeName": null,
+      "targetType": null,
+      "policyAction": null,
+      "rules": [
+        {
+          "interfaceId": 11,
+          "sourcePrefix": "192.0.3.0",
+          "prefixLength": 24
+        },
+        {
+          "interfaceId": 22,
+          "sourcePrefix": "198.1.0.0",
+          "prefixLength": 23
+        }
+      ]
+    },
+    {
+      "recordId": 3,
+      "timestamp": 1765369720000,
+      "ruleType": null,
+      "ruleTypeName": null,
+      "targetType": null,
+      "policyAction": null,
+      "rules": [
+        {
+          "interfaceId": 12,
+          "sourcePrefix": "192.0.4.0",
+          "prefixLength": 24
+        },
+        {
+          "interfaceId": 23,
+          "sourcePrefix": "198.1.0.0",
+          "prefixLength": 23
+        },
+        {
+          "interfaceId": 24,
+          "sourcePrefix": "198.2.0.0",
+          "prefixLength": 24
+        }
+      ]
+    }
+  ],
+  "generatedAt": 1765370191,
+  "ipVersion": 4
+}
