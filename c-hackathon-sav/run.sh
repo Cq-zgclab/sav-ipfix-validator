@@ -44,7 +44,7 @@ echo ""
 echo "🔄 Step 2: Converting IPFIX to JSON using ipfix2json..."
 cd "$PROJECT_ROOT"
 
-ipfix2json --in test_data/sample_sav.ipfix --out web/data_raw.json
+ipfix2json --element-file sav_ies.xml --in test_data/sample_sav.ipfix --out web/data_raw.json
 echo "   ✅ Raw JSON created: web/data_raw.json"
 
 # Step 3: Post-process JSON
@@ -53,30 +53,23 @@ echo "🔧 Step 3: Post-processing JSON (fixing byte order, decoding fields)..."
 python3 src/process_ipfix_json.py web/data_raw.json web/data.json
 echo "   ✅ Final JSON created: web/data.json"
 
-# Step 4: Start web server
+# Step 4: Build and start Go web server
 echo ""
-echo "🌐 Step 4: Starting HTTP server..."
-cd "$PROJECT_ROOT/web"
+echo "🌐 Step 4: Starting Go HTTP server..."
+cd "$PROJECT_ROOT"
+
+# Build Go server if not exists or source changed
+if [ ! -f "server" ] || [ "server.go" -nt "server" ]; then
+    echo "   Building Go server..."
+    go build -o server server.go
+    echo "   ✅ Server compiled"
+fi
 
 # Check if port 8000 is already in use
 if lsof -Pi :8000 -sTCP:LISTEN -t >/dev/null 2>&1 ; then
     echo "   ⚠️  Port 8000 is already in use"
     echo "   You can manually access http://localhost:8000"
 else
-    echo "   Starting Python HTTP server on port 8000..."
-    python3 -m http.server 8000 &
-    SERVER_PID=$!
-    echo "   ✅ Server started (PID: $SERVER_PID)"
-    echo ""
-    echo "╔═══════════════════════════════════════════════════════╗"
-    echo "║  🎉 SUCCESS! Web interface is now running            ║"
-    echo "╠═══════════════════════════════════════════════════════╣"
-    echo "║  📊 Open in browser: http://localhost:8000           ║"
-    echo "║  🛑 Stop server: kill $SERVER_PID                     ║"
-    echo "╚═══════════════════════════════════════════════════════╝"
-    echo ""
-    echo "Press Ctrl+C to stop the server..."
-    
-    # Wait for server process
-    wait $SERVER_PID
+    echo "   Starting Go HTTP server on port 8000..."
+    ./server 8000
 fi

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SAV Information Elements Definition
+  Enterprise ID: 6871
+  Based on: draft-cao-opsawg-ipfix-sav-01
+-->
+<ipfix-information-elements>
+  <informationElement>
+    <name>savRuleType</name>
+    <enterpriseId>6871</enterpriseId>
+    <id>1</id>
+    <dataType>unsigned8</dataType>
+    <dataTypeSemantics>identifier</dataTypeSemantics>
+    <description>
+      SAV rule type: 0=Allowlist, 1=Blocklist
+    </description>
+  </informationElement>
+  
+  <informationElement>
+    <name>savTargetType</name>
+    <enterpriseId>6871</enterpriseId>
+    <id>2</id>
+    <dataType>unsigned8</dataType>
+    <dataTypeSemantics>identifier</dataTypeSemantics>
+    <description>
+      SAV target type: 0=InterfaceBased, 1=ACLBased
+    </description>
+  </informationElement>
+  
+  <informationElement>
+    <name>savMatchedContentList</name>
+    <enterpriseId>6871</enterpriseId>
+    <id>3</id>
+    <dataType>subTemplateList</dataType>
+    <dataTypeSemantics>list</dataTypeSemantics>
+    <description>
+      List of SAV matched content (interface prefix or ACL)
+    </description>
+  </informationElement>
+  
+  <informationElement>
+    <name>savPolicyAction</name>
+    <enterpriseId>6871</enterpriseId>
+    <id>4</id>
+    <dataType>unsigned8</dataType>
+    <dataTypeSemantics>identifier</dataTypeSemantics>
+    <description>
+      SAV policy action: 0=Permit, 1=Discard
+    </description>
+  </informationElement>
+</ipfix-information-elements>

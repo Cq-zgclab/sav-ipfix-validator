@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAV IPFIX - 终极测试</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .box {
+            background: #111;
+            border: 2px solid #0f0;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        h1, h2 { color: #0f0; margin: 10px 0; }
+        .ok { color: #0f0; }
+        .error { color: #f00; }
+        .warn { color: #ff0; }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover { background: #0a0; }
+        pre {
+            background: #000;
+            border: 1px solid #0f0;
+            padding: 10px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #0f0;
+            padding: 8px;
+            text-align: left;
+        }
+        th { background: #0a0; color: #000; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🟢 SAV IPFIX 终极测试页面</h1>
+        <p><strong>如果你能看到这段文字，说明HTML加载成功！</strong></p>
+    </div>
+
+    <div class="box">
+        <h2>系统状态</h2>
+        <div id="status">
+            <p class="ok">✓ HTML 已加载</p>
+            <p class="ok">✓ CSS 已应用</p>
+            <p id="js-status" class="warn">⧗ JavaScript 检查中...</p>
+        </div>
+    </div>
+
+    <div class="box">
+        <h2>操作按钮</h2>
+        <button onclick="testFetch()">测试数据加载</button>
+        <button onclick="location.reload()">刷新页面</button>
+        <button onclick="showRawHTML()">显示原始HTML</button>
+    </div>
+
+    <div class="box">
+        <h2>测试结果</h2>
+        <div id="result">等待测试...</div>
+    </div>
+
+    <div class="box">
+        <h2>SAV数据预览（硬编码）</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>记录ID</th>
+                    <th>接口ID</th>
+                    <th>源前缀</th>
+                    <th>前缀长度</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>192.0.2.0</td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>11</td>
+                    <td>192.0.3.0</td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>12</td>
+                    <td>192.0.4.0</td>
+                    <td>24</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>这是硬编码的数据，如果你能看到这个表格，说明页面渲染完全正常！</strong></p>
+    </div>
+
+    <script>
+        // 立即执行
+        (function() {
+            console.log('JavaScript已执行');
+            document.getElementById('js-status').className = 'ok';
+            document.getElementById('js-status').textContent = '✓ JavaScript 正常运行';
+        })();
+
+        function testFetch() {
+            const result = document.getElementById('result');
+            result.innerHTML = '<p class="warn">正在加载 data.json...</p>';
+            
+            fetch('data.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    result.innerHTML = '<p class="ok">✓ HTTP 响应成功</p>';
+                    return response.json();
+                })
+                .then(data => {
+                    result.innerHTML = `
+                        <p class="ok">✓ 数据加载成功！</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                })
+                .catch(error => {
+                    result.innerHTML = `
+                        <p class="error">✗ 加载失败</p>
+                        <pre>${error.message}\n${error.stack}</pre>
+                    `;
+                });
+        }
+
+        function showRawHTML() {
+            const html = document.documentElement.outerHTML;
+            document.getElementById('result').innerHTML = `
+                <p class="ok">当前HTML源码（前1000字符）：</p>
+                <pre>${html.substring(0, 1000)}...</pre>
+            `;
+        }
+
+        // 页面加载完成自动测试
+        window.addEventListener('load', function() {
+            console.log('页面完全加载');
+            setTimeout(() => {
+                document.getElementById('result').innerHTML = 
+                    '<p class="ok">✓ 页面加载完成！点击"测试数据加载"按钮测试AJAX功能</p>';
+            }, 100);
+        });
+
+        // 错误捕获
+        window.onerror = function(msg, url, line, col, error) {
+            document.getElementById('result').innerHTML = `
+                <p class="error">全局错误:</p>
+                <pre>消息: ${msg}
+文件: ${url}
+行号: ${line}:${col}
+错误: ${error}</pre>
+            `;
+            return false;
+        };
+    </script>
+
+    <div class="box">
+        <h2>📋 说明</h2>
+        <p>这个页面用最简单的方式测试所有功能：</p>
+        <ul>
+            <li>如果你看到<span class="ok">绿色文字</span>和表格，HTML/CSS正常</li>
+            <li>如果"JavaScript状态"显示✓，说明JS正常</li>
+            <li>点击"测试数据加载"按钮，测试AJAX功能</li>
+            <li>如果都正常，那么原始的index.html也应该能工作</li>
+        </ul>
+        <p><strong>当前时间：</strong> <span id="time"></span></p>
+        <script>
+            setInterval(() => {
+                document.getElementById('time').textContent = new Date().toLocaleString('zh-CN');
+            }, 1000);
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>SAV Static Test</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .card {
+            background: #f9f9f9;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .success { border-left-color: #4caf50; }
+        .info { border-left-color: #2196f3; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #667eea;
+            color: white;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ SAV IPFIX 数据查看器 - 静态版本</h1>
+        
+        <div class="card success">
+            <h2>🎉 页面加载成功！</h2>
+            <p>如果你能看到这个页面，说明浏览器和HTTP服务器都工作正常。</p>
+        </div>
+        
+        <div class="card info">
+            <h2>📊 数据统计</h2>
+            <ul>
+                <li><strong>总记录数：</strong> 3</li>
+                <li><strong>IP版本：</strong> IPv4</li>
+                <li><strong>总规则数：</strong> 6</li>
+                <li><strong>生成时间：</strong> 2025-12-10 14:04</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2>📋 SAV IPFIX 记录</h2>
+            
+            <h3>记录 #1</h3>
+            <p><strong>时间戳：</strong> 2025-12-10 14:04:11</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>接口ID</th>
+                        <th>源前缀</th>
+                        <th>前缀长度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>10</td>
+                        <td>192.0.2.0</td>
+                        <td>24</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>记录 #2</h3>
+            <p><strong>时间戳：</strong> 2025-12-10 14:04:12</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>接口ID</th>
+                        <th>源前缀</th>
+                        <th>前缀长度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>11</td>
+                        <td>192.0.3.0</td>
+                        <td>24</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>22</td>
+                        <td>198.1.0.0</td>
+                        <td>23</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>记录 #3</h3>
+            <p><strong>时间戳：</strong> 2025-12-10 14:04:13</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>接口ID</th>
+                        <th>源前缀</th>
+                        <th>前缀长度</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>12</td>
+                        <td>192.0.4.0</td>
+                        <td>24</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>23</td>
+                        <td>198.1.0.0</td>
+                        <td>23</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>24</td>
+                        <td>198.2.0.0</td>
+                        <td>24</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card info">
+            <h2>🔗 其他页面</h2>
+            <ul>
+                <li><a href="index.html">动态页面 (index.html)</a></li>
+                <li><a href="debug.html">调试页面 (debug.html)</a></li>
+                <li><a href="test.html">测试页面 (test.html)</a></li>
+                <li><a href="data.json">JSON数据 (data.json)</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>SAV IPFIX Hackathon Project © 2025</p>
+            <p>这是一个静态HTML页面，不依赖JavaScript</p>
+        </div>
+    </div>
+</body>
+</html>

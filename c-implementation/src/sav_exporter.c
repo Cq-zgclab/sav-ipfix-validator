@@ -289,21 +289,11 @@ gboolean sav_export_record(
     g_debug("sav_export_record: sub_tmpl_id=%u, entry_count=%u, entry_size=%zu",
             ctx->sub_tmpl_id, ctx->entry_count, ctx->entry_size);
     
-    /* Determine semantic value based on rule_type per RFC6313 and draft-cao-opsawg-ipfix-sav
-     * - Allowlist (rule_type=1): use allOf (0x03) - packet didn't match any rule in list
-     * - Blocklist (rule_type=2): use exactlyOneOf (0x01) - packet matched this specific rule
-     */
-    uint8_t semantic;
-    if (rule_type == 1) {
-        semantic = 0x03;  /* allOf - for allowlist, export all rules that were checked */
-    } else if (rule_type == 2) {
-        semantic = 0x01;  /* exactlyOneOf - for blocklist, export the matched rule */
-    } else {
-        semantic = 0x00;  /* undefined - for unknown rule types */
-    }
-    
+    /* CRITICAL FIX: Correctly call fbSubTemplateListInit with all 5 arguments */
+    /* The semantic 3 means 'allOf' as used by YAF (libfixbuf convention) */
+    /* NOTE: RFC 6313 defines 0xFF, but libfixbuf uses 3 internally */
     fbSubTemplateListInit(&record.savMatchedContentList, 
-                          semantic,           /* semantic value per RFC6313 */
+                          3,                  /* semantic: 3 = allOf (libfixbuf convention) */
                           ctx->sub_tmpl_id,   /* external template ID */
                           ctx->sub_tmpl,      /* internal template pointer, MUST NOT be NULL */
                           ctx->entry_count);

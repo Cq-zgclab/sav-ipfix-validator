@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAV IPFIX Debug</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .log {
+            background: #252526;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 3px solid #007acc;
+        }
+        .error {
+            border-left-color: #f48771;
+        }
+        .success {
+            border-left-color: #89d185;
+        }
+        h1 { color: #4ec9b0; }
+        pre {
+            background: #1e1e1e;
+            padding: 10px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 SAV IPFIX 调试页面</h1>
+    <div id="logs"></div>
+    
+    <script>
+        const logs = document.getElementById('logs');
+        
+        function log(message, type = 'log') {
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logs.appendChild(div);
+            console.log(message);
+        }
+        
+        log('页面加载开始...', 'log');
+        
+        // 捕获所有错误
+        window.onerror = function(msg, url, line, col, error) {
+            log(`❌ 全局错误: ${msg} (Line: ${line}, Col: ${col})`, 'error');
+            return false;
+        };
+        
+        // 测试1: 检查DOM元素
+        log('测试1: 检查DOM加载...', 'log');
+        setTimeout(() => {
+            log('✅ setTimeout 工作正常', 'success');
+        }, 100);
+        
+        // 测试2: 加载数据
+        log('测试2: 开始加载 data.json...', 'log');
+        fetch('data.json')
+            .then(response => {
+                log(`✅ Fetch 响应: ${response.status} ${response.statusText}`, 'success');
+                return response.json();
+            })
+            .then(data => {
+                log(`✅ JSON 解析成功`, 'success');
+                log(`总记录数: ${data.totalRecords}`, 'success');
+                log(`记录详情:`, 'success');
+                
+                const pre = document.createElement('pre');
+                pre.textContent = JSON.stringify(data, null, 2);
+                logs.appendChild(pre);
+                
+                // 测试3: 渲染简单内容
+                log('测试3: 尝试渲染内容...', 'log');
+                const testDiv = document.createElement('div');
+                testDiv.style.background = '#2d2d30';
+                testDiv.style.padding = '20px';
+                testDiv.style.margin = '10px 0';
+                testDiv.innerHTML = `
+                    <h2 style="color: #4ec9b0;">渲染测试成功！</h2>
+                    <p>找到 ${data.totalRecords} 条记录</p>
+                    <ul>
+                        ${data.records.map((r, i) => 
+                            `<li>记录 ${i+1}: ${r.rules.length} 条规则</li>`
+                        ).join('')}
+                    </ul>
+                `;
+                logs.appendChild(testDiv);
+                log('✅ 内容渲染成功', 'success');
+            })
+            .catch(error => {
+                log(`❌ 加载失败: ${error.message}`, 'error');
+                log(`错误堆栈: ${error.stack}`, 'error');
+            });
+        
+        log('脚本执行完成', 'log');
+    </script>
+</body>
+</html>

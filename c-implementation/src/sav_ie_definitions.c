@@ -59,12 +59,11 @@ static fbInfoElementSpec_t sav_ipv6_prefix_interface_spec[] = {
 
 /* Main template spec for SAV Data Records (Template 400) */
 static fbInfoElementSpec_t sav_main_template_spec[] = {
-    { "observationTimeMilliseconds", 8, 0 },
+    { "observationTimeMilliseconds", 8, 0 },  /* IE 323, not 324! */
     { "savRuleType",                 1, 0 },
     { "savTargetType",               1, 0 },
+    { "subTemplateList", FB_IE_VARLEN, 0 }, /* CRITICAL FIX: Must be "subTemplateList" */
     { "savPolicyAction",             1, 0 },
-    { "paddingOctets",               5, 0 },  /* Explicit padding for struct alignment */
-    { "subTemplateList", FB_IE_VARLEN, 0 },   /* Must be last! */
     FB_IESPEC_NULL
 };
 
