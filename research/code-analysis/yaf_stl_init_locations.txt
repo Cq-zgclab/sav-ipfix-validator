@@ -1,0 +1,4 @@
+src/yafcore.c:1665:    accessListPtr = (yfTombstoneAccess_t *)fbSubTemplateListInit(
+src/yafdpi.c:2183:    fbSubTemplateListInit(stl, 3, YAF_DPI_EMPTY_TID, dpiEmptyTemplate, 0);
+src/yafdpi.c:3048:    rec = fbSubTemplateListInit(stl, 3, stlTID, stlTemplate, 1);
+src/yafdpi.c:3125:    rec = fbSubTemplateListInit(stl, 3, stlTID, stlTemplate, 1);

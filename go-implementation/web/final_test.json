@@ -1,0 +1,274 @@
+{
+  "metadata": {
+    "input_file": "data/final_test.ipfix",
+    "processed_at": "2025-12-09T05:18:36.912492966Z",
+    "total_records": 13,
+    "rfc_compliance": [
+      "RFC 7011 - IPFIX Protocol Specification",
+      "RFC 6313 - Export of Structured Data in IPFIX",
+      "draft-cao-opsawg-ipfix-sav-01 - SAV Information Elements"
+    ]
+  },
+  "records": [
+    {
+      "record_number": 1,
+      "timestamp": "2025-12-09T04:18:36.909Z",
+      "timestamp_str": "2025-12-09 04:18:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 2,
+      "timestamp": "2025-12-09T04:23:36.909Z",
+      "timestamp_str": "2025-12-09 04:23:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 3,
+      "timestamp": "2025-12-09T04:28:36.909Z",
+      "timestamp_str": "2025-12-09 04:28:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 4,
+      "timestamp": "2025-12-09T04:33:36.909Z",
+      "timestamp_str": "2025-12-09 04:33:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 5,
+      "timestamp": "2025-12-09T04:38:36.909Z",
+      "timestamp_str": "2025-12-09 04:38:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 6,
+      "timestamp": "2025-12-09T04:43:36.909Z",
+      "timestamp_str": "2025-12-09 04:43:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 7,
+      "timestamp": "2025-12-09T04:48:36.909Z",
+      "timestamp_str": "2025-12-09 04:48:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 8,
+      "timestamp": "2025-12-09T04:53:36.909Z",
+      "timestamp_str": "2025-12-09 04:53:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 9,
+      "timestamp": "2025-12-09T04:58:36.909Z",
+      "timestamp_str": "2025-12-09 04:58:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 10,
+      "timestamp": "2025-12-09T05:03:36.909Z",
+      "timestamp_str": "2025-12-09 05:03:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 11,
+      "timestamp": "2025-12-09T05:08:36.909Z",
+      "timestamp_str": "2025-12-09 05:08:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 12,
+      "timestamp": "2025-12-09T05:13:36.909Z",
+      "timestamp_str": "2025-12-09 05:13:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 0,
+          "prefix": "0.0.0.0",
+          "prefix_length": 0,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    },
+    {
+      "record_number": 13,
+      "timestamp": "2025-12-09T04:53:36.909Z",
+      "timestamp_str": "2025-12-09 04:53:36.909",
+      "rule_type": 0,
+      "rule_type_name": "Allowlist",
+      "target_type": 0,
+      "target_type_name": "InterfaceBased",
+      "policy_action": 1,
+      "policy_action_name": "Discard",
+      "mappings": [
+        {
+          "interface_id": 1000,
+          "prefix": "203.0.113.0",
+          "prefix_length": 24,
+          "is_ipv6": false
+        }
+      ],
+      "mapping_count": 1
+    }
+  ]
+}

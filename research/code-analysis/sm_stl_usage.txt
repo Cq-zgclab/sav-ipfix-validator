@@ -1,0 +1,6 @@
+mediator_core.c:1526:    accessRec = (tombstoneAccessV2Rec_t*)fbSubTemplateListInit(
+mediator_export.c:4889:    fbSubTemplateListInit(recStl, fbSubTemplateListGetSemantic(tmpStl),
+mediator_ssl.c:1221:        (yaf_ssl_subcert_t *)fbSubTemplateListInit(
+mediator_ssl.c:1330:        (yaf_ssl_subcert_t *)fbSubTemplateListInit(
+mediator_ssl.c:1438:        fbSubTemplateListInit(&(sslCert->extension), 0,
+mediator_ssl.c:1460:            (yaf_ssl_subcert_t *)fbSubTemplateListInit(

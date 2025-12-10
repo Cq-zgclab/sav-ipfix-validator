@@ -1,0 +1,14 @@
+src/yafcore.c:1115:    if (!fbSessionAddTemplate(session, TRUE, YAF_FLOW_FULL_TID,
+src/yafcore.c:1141:        if (!fbSessionAddTemplate(session, FALSE, YAF_PROCESS_STATS_TID,
+src/yafcore.c:1146:        if (!fbSessionAddTemplate(session, TRUE, YAF_PROCESS_STATS_TID,
+src/yafcore.c:1172:        if (!fbSessionAddTemplate(session, FALSE, YAF_TOMBSTONE_TID,
+src/yafcore.c:1179:        if (!fbSessionAddTemplate(session, TRUE, YAF_TOMBSTONE_TID,
+src/yafcore.c:1200:        if (!fbSessionAddTemplate(session, FALSE, YAF_TOMBSTONE_ACCESS_TID,
+src/yafcore.c:1206:        if (!fbSessionAddTemplate(session, TRUE, YAF_TOMBSTONE_ACCESS_TID,
+src/yafcore.c:1388:    if (!fbSessionAddTemplate(session, FALSE, tid_16_bit, tmpl, mdInfo, err))
+src/yafcore.c:2217:        fbSessionAddTemplatePair(session, tid, tid);
+src/yafcore.c:2220:    fbSessionAddTemplatePair(session, tid, 0);
+src/yafcore.c:2247:    if (!fbSessionAddTemplate(session, TRUE, YAF_FLOW_FULL_TID, tmpl, NULL, err)) {
+src/yafcore.c:2259:    if (!fbSessionAddTemplate(session, TRUE, YAF_FLOW_EXT_TID, tmpl, NULL, err)) {
+src/yafdpi.c:3002:    id = fbSessionAddTemplate(session, TRUE, tid, intTmpl, mdInfo, err);
+src/yafdpi.c:3007:    if (!fbSessionAddTemplate(session, FALSE, id, extTmpl, mdInfo, err)) {

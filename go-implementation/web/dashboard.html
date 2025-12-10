@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAV IPFIX Hackathon Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            backdrop-filter: blur(10px);
+        }
+        
+        .scenario {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .scenario-header {
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+        
+        .scenario-header h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        
+        .scenario-header p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 30px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+        }
+        
+        .stat-card .number {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat-card .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .insight-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        
+        .insight-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .insight-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .insight-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .insight-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            padding: 30px 0;
+            margin-top: 30px;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dashed white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 SAV IPFIX Telemetry Demo</h1>
+            <p>Source Address Validation Flow Monitoring with IPFIX</p>
+            <div class="badges">
+                <span class="badge">✅ RFC 7011 Compliant</span>
+                <span class="badge">✅ RFC 6313 SubTemplateList</span>
+                <span class="badge">✅ draft-cao-opsawg-ipfix-sav-01</span>
+            </div>
+        </header>
+
+        <!-- Scenario 1: Attack Detection -->
+        <div class="scenario">
+            <div class="scenario-header">
+                <h2>📈 Scenario 1: Spoofing Attack Detection</h2>
+                <p><strong>Macro + Micro + Combined Analysis:</strong> Time-series trend reveals attack timeline; forensic detail shows exact rule trigger</p>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="attackChart"></canvas>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Attack Duration</div>
+                    <div class="number">20 min</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Peak Traffic</div>
+                    <div class="number">10K pps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Total Packets</div>
+                    <div class="number">75K</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Data Volume</div>
+                    <div class="number">45 MB</div>
+                </div>
+            </div>
+            
+            <div class="insight-box">
+                <h3>💡 Key Insights</h3>
+                <ul>
+                    <li><strong>Macro:</strong> Attack started 60min ago, peaked at T-35min (10K pps), lasted 20 minutes</li>
+                    <li><strong>Micro:</strong> Source 192.0.2.123 arrived on eth0 but failed allowlist (3 prefixes: 203.0.113.0/24, 198.51.100.0/24, 192.0.2.0/24)</li>
+                    <li><strong>Combined:</strong> Macro identifies anomaly window → Micro provides rule-level forensics for incident response</li>
+                    <li><strong>Action:</strong> All spoofed packets discarded (savPolicyAction=1)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Scenario 2: Interface Distribution -->
+        <div class="scenario">
+            <div class="scenario-header">
+                <h2>🌐 Scenario 2: Multi-Interface Traffic Distribution</h2>
+                <p><strong>Spatial Analysis + Rule Audit:</strong> Identify problematic interfaces; drill down to rule configurations for optimization</p>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="interfaceChart"></canvas>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Most Problematic</div>
+                    <div class="number">eth0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">External Traffic</div>
+                    <div class="number">45K pps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Interfaces Monitored</div>
+                    <div class="number">5</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Total Traffic</div>
+                    <div class="number">70.5K pps</div>
+                </div>
+            </div>
+            
+            <div class="insight-box">
+                <h3>💡 Key Insights</h3>
+                <ul>
+                    <li><strong>Macro:</strong> eth0 (external) receives 64% of spoofing traffic (45K pps); eth4 (internal) only 2.6% (1.8K pps)</li>
+                    <li><strong>Micro:</strong> eth0 uses interface-based allowlist (savTargetType=0) with 3 prefixes; eth1 uses prefix-based validation (savTargetType=1)</li>
+                    <li><strong>Combined:</strong> Spatial hotspot analysis → Rule configuration audit → Optimization suggestions</li>
+                    <li><strong>Action:</strong> Mix of discard and rate-limit policies based on interface sensitivity</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Scenario 3: Policy Actions -->
+        <div class="scenario">
+            <div class="scenario-header">
+                <h2>⚙️ Scenario 3: Policy Action Effectiveness</h2>
+                <p><strong>Quantitative Evaluation + Optimization:</strong> Measure enforcement impact; optimize policy decisions based on data</p>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="actionChart"></canvas>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="label">Bandwidth Saved</div>
+                    <div class="number">30 MB</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Packets Discarded</div>
+                    <div class="number">84%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Rate-Limited</div>
+                    <div class="number">13%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Actions Applied</div>
+                    <div class="number">4 Types</div>
+                </div>
+            </div>
+            
+            <div class="insight-box">
+                <h3>💡 Key Insights</h3>
+                <ul>
+                    <li><strong>Macro:</strong> Discard (84%, 50K packets, 30MB saved) most effective; Rate-limit (13%, 8K packets) secondary defense</li>
+                    <li><strong>Micro:</strong> Discard triggered by blocklist match (2001:db8:bad::/48); Rate-limit by allowlist miss on if-6000</li>
+                    <li><strong>Combined:</strong> Quantify policy effectiveness → Review trigger logic → Decision support</li>
+                    <li><strong>Recommendation:</strong> Consider converting some rate-limit policies to discard for confirmed threats</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>SAV IPFIX Implementation</strong> - Hackathon Demo 2025</p>
+            <p>Repository: <a href="https://github.com/Cq-zgclab/sav-ipfix-validator" target="_blank">github.com/Cq-zgclab/sav-ipfix-validator</a></p>
+            <p>Specification: draft-cao-opsawg-ipfix-sav-01</p>
+        </footer>
+    </div>
+
+    <script>
+        // Scenario 1: Attack Time-Series Chart
+        const attackCtx = document.getElementById('attackChart').getContext('2d');
+        new Chart(attackCtx, {
+            type: 'line',
+            data: {
+                labels: ['-60m', '-55m', '-50m', '-45m', '-40m', '-35m', '-30m', '-25m', '-20m', '-15m', '-10m', '-5m'],
+                datasets: [{
+                    label: 'Spoofing Traffic (packets per 5min)',
+                    data: [500, 1000, 1500, 2000, 2500, 10000, 9500, 8000, 6000, 4000, 2000, 1000],
+                    borderColor: '#f56565',
+                    backgroundColor: 'rgba(245, 101, 101, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 6,
+                    pointHoverRadius: 10,
+                    pointBackgroundColor: function(context) {
+                        // Highlight peak at index 5
+                        return context.dataIndex === 5 ? '#e53e3e' : '#f56565';
+                    },
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Spoofing Attack Timeline - Time-Series Analysis',
+                        font: { size: 16, weight: 'bold' },
+                        padding: 20
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: function(context) {
+                                if (context.dataIndex === 5) {
+                                    return '\n🎯 PEAK: Micro detail available\nSource: 192.0.2.123\nAllowlist miss on eth0';
+                                }
+                                return '';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Packets per 5 minutes'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time (relative to now)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Scenario 2: Interface Distribution Chart
+        const interfaceCtx = document.getElementById('interfaceChart').getContext('2d');
+        new Chart(interfaceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['eth0\n(external)', 'eth1\n(customer-A)', 'eth2\n(customer-B)', 'eth3\n(peering)', 'eth4\n(internal)'],
+                datasets: [{
+                    label: 'Spoofing Traffic (pps)',
+                    data: [45000, 8500, 12000, 3200, 1800],
+                    backgroundColor: [
+                        '#f56565', // red for highest
+                        '#ed8936', // orange
+                        '#ecc94b', // yellow
+                        '#48bb78', // green
+                        '#38b2ac'  // teal for lowest
+                    ],
+                    borderColor: [
+                        '#e53e3e',
+                        '#dd6b20',
+                        '#d69e2e',
+                        '#38a169',
+                        '#319795'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Per-Interface Spoofing Traffic Distribution',
+                        font: { size: 16, weight: 'bold' },
+                        padding: 20
+                    },
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: function(context) {
+                                const details = [
+                                    'savTargetType: InterfaceBased\nAllowlist: 3 prefixes',
+                                    'savTargetType: PrefixBased\nAllowlist: 2 interfaces',
+                                    'savTargetType: InterfaceBased\nAllowlist: 4 prefixes',
+                                    'savTargetType: PrefixBased\nBlocklist: 1 prefix',
+                                    'savTargetType: InterfaceBased\nAllowlist: 2 prefixes'
+                                ];
+                                return '\n' + details[context.dataIndex];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Packets per second'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Network Interface'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Scenario 3: Policy Action Pie Chart
+        const actionCtx = document.getElementById('actionChart').getContext('2d');
+        new Chart(actionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Discard (84%)', 'Rate-limit (13%)', 'Redirect (2%)', 'Permit (1%)'],
+                datasets: [{
+                    data: [50000, 8000, 500, 1000],
+                    backgroundColor: [
+                        '#f56565', // red - discard
+                        '#ed8936', // orange - rate-limit
+                        '#ecc94b', // yellow - redirect
+                        '#48bb78'  // green - permit
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Policy Action Distribution (by packet count)',
+                        font: { size: 16, weight: 'bold' },
+                        padding: 20
+                    },
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            padding: 20,
+                            font: { size: 14 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed;
+                                const bytes = [30000000, 4800000, 300000, 600000][context.dataIndex];
+                                return label + '\n' + value.toLocaleString() + ' packets\n' + (bytes / 1000000).toFixed(1) + ' MB';
+                            },
+                            afterLabel: function(context) {
+                                const triggers = [
+                                    'savRuleType: Blocklist\nPrefix: 2001:db8:bad::/48',
+                                    'savRuleType: Allowlist miss\nInterface: 6000',
+                                    'savRuleType: Blocklist\nInterface: 7000',
+                                    'savRuleType: Allowlist\nMonitoring mode'
+                                ];
+                                return '\n' + triggers[context.dataIndex];
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

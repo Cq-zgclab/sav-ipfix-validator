@@ -1,0 +1,39 @@
+# 编译输出
+build/
+*.o
+*.a
+*.so
+*.so.*
+*.la
+*.lo
+*.libs
+.deps/
+
+# 可执行文件
+test/test_*
+!test/test_*.c
+examples/sample_*
+!examples/sample_*.c
+tools/sav_dump
+tools/simple_export_test
+
+# IPFIX文件
+*.ipfix
+
+# Python脚本（临时分析用）
+*.py
+
+# 外部源码（太大，不提交）
+external-sources/
+yaf-3.0.0.alpha3/
+
+# IDE
+.vscode/
+*.swp
+*.swo
+*~
+
+# 临时文件
+*.tmp
+*.bak
+test_data/
