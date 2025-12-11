@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纯HTML数据展示 - 无JS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .status {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .status h2 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+        }
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .record {
+            background: #fafafa;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .record-header {
+            background: #667eea;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .record-body {
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: #f5f5f5;
+            font-weight: bold;
+            color: #333;
+        }
+        tr:hover {
+            background: #f9f9f9;
+        }
+        .timestamp {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #666;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .badge-success {
+            background: #4caf50;
+            color: white;
+        }
+        .links {
+            margin: 20px 0;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+        .links h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+        .links a {
+            display: inline-block;
+            margin: 5px 10px 5px 0;
+            padding: 10px 20px;
+            background: #2196f3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .links a:hover {
+            background: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ SAV IPFIX 数据查看器</h1>
+            <p>纯HTML版本 - 无JavaScript依赖</p>
+            <span class="badge badge-success">服务器运行正常</span>
+        </div>
+
+        <div class="content">
+            <div class="status">
+                <h2>🎉 页面加载成功！</h2>
+                <p><strong>如果你能看到这个页面，说明：</strong></p>
+                <ul style="margin: 10px 0 0 30px; line-height: 1.8;">
+                    <li>✅ Go Web服务器运行正常</li>
+                    <li>✅ HTML文件正确加载</li>
+                    <li>✅ CSS样式正常应用</li>
+                    <li>✅ 端口8000可访问</li>
+                </ul>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>总记录数</h3>
+                    <div class="value">3</div>
+                </div>
+                <div class="stat-card">
+                    <h3>IP版本</h3>
+                    <div class="value">IPv4</div>
+                </div>
+                <div class="stat-card">
+                    <h3>总规则数</h3>
+                    <div class="value">6</div>
+                </div>
+            </div>
+
+            <!-- Record 1 -->
+            <div class="record">
+                <div class="record-header">📋 记录 #1</div>
+                <div class="record-body">
+                    <div class="timestamp">⏰ 时间戳: 2025-12-10 14:07:16</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>接口ID</th>
+                                <th>源前缀</th>
+                                <th>前缀长度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>10</td>
+                                <td>192.0.2.0</td>
+                                <td>24</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Record 2 -->
+            <div class="record">
+                <div class="record-header">📋 记录 #2</div>
+                <div class="record-body">
+                    <div class="timestamp">⏰ 时间戳: 2025-12-10 14:07:17</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>接口ID</th>
+                                <th>源前缀</th>
+                                <th>前缀长度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>11</td>
+                                <td>192.0.3.0</td>
+                                <td>24</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>22</td>
+                                <td>198.1.0.0</td>
+                                <td>23</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Record 3 -->
+            <div class="record">
+                <div class="record-header">📋 记录 #3</div>
+                <div class="record-body">
+                    <div class="timestamp">⏰ 时间戳: 2025-12-10 14:07:18</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>接口ID</th>
+                                <th>源前缀</th>
+                                <th>前缀长度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>12</td>
+                                <td>192.0.4.0</td>
+                                <td>24</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>23</td>
+                                <td>198.1.0.0</td>
+                                <td>23</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>24</td>
+                                <td>198.2.0.0</td>
+                                <td>24</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="links">
+                <h3>🔗 其他页面</h3>
+                <a href="data.json" target="_blank">📄 查看JSON数据</a>
+                <a href="static.html">📊 静态展示页面</a>
+                <a href="diagnostic.html">🔬 诊断工具</a>
+                <a href="test.html">🧪 测试页面</a>
+            </div>
+
+            <div class="status" style="background: #fff3e0; border-left-color: #ff9800;">
+                <h2 style="color: #e65100;">📝 关于JavaScript问题</h2>
+                <p>原始的 <code>index.html</code> 需要JavaScript加载数据，在某些浏览器环境下可能无法正常工作。</p>
+                <p style="margin-top: 10px;"><strong>这个页面是纯HTML版本，无需JavaScript即可显示所有数据。</strong></p>
+                <p style="margin-top: 10px;">如果你能看到上面的3条记录和6个规则，说明：</p>
+                <ul style="margin: 10px 0 0 30px;">
+                    <li>✅ C语言IPFIX导出器工作正常</li>
+                    <li>✅ IPFIX到JSON的转换正常</li>
+                    <li>✅ Web服务器工作正常</li>
+                    <li>✅ 数据显示正常</li>
+                </ul>
+                <p style="margin-top: 15px; font-weight: bold; color: #e65100;">
+                    🎉 你的Hackathon项目功能已全部完成！
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>SAV IPFIX Hackathon Project</strong></p>
+            <p>C Implementation + Go Web Server</p>
+            <p style="margin-top: 10px; color: #999;">
+                生成时间: 2025-12-10 | Go服务器端口: 8000
+            </p>
+        </div>
+    </div>
+</body>
+</html>

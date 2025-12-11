@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诊断工具 - SAV IPFIX</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a2e;
+            color: #eee;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        h1 { 
+            color: #00ff88;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #00ff88;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #4fc3f7;
+            margin: 20px 0 10px 0;
+        }
+        .section {
+            background: #16213e;
+            border: 1px solid #0f3460;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        .log {
+            background: #0a0e27;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 3px solid #00ff88;
+            font-size: 14px;
+        }
+        .log.info { border-left-color: #4fc3f7; }
+        .log.warn { border-left-color: #ffd54f; color: #ffd54f; }
+        .log.error { border-left-color: #ff5252; color: #ff5252; }
+        .log.success { border-left-color: #00ff88; color: #00ff88; }
+        
+        button {
+            background: #00ff88;
+            color: #1a1a2e;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        button:hover { 
+            background: #00cc6f;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #0f3460;
+        }
+        th {
+            background: #0f3460;
+            color: #00ff88;
+            font-weight: bold;
+        }
+        td {
+            background: #16213e;
+        }
+        
+        pre {
+            background: #0a0e27;
+            padding: 15px;
+            overflow-x: auto;
+            border-radius: 4px;
+            border: 1px solid #0f3460;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status-ok { background: #00ff88; color: #1a1a2e; }
+        .status-fail { background: #ff5252; color: white; }
+        .status-unknown { background: #757575; color: white; }
+        
+        #realtime-log {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 SAV IPFIX Web 诊断工具</h1>
+        
+        <div class="section">
+            <h2>🌐 环境信息</h2>
+            <table id="env-info">
+                <tr><th>项目</th><th>值</th></tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>🧪 快速测试</h2>
+            <div class="btn-group">
+                <button onclick="testBasic()">1️⃣ 基础测试</button>
+                <button onclick="testDataJson()">2️⃣ 测试data.json</button>
+                <button onclick="testAllPages()">3️⃣ 测试所有页面</button>
+                <button onclick="testCORS()">4️⃣ CORS测试</button>
+                <button onclick="testHeaders()">5️⃣ 响应头测试</button>
+                <button onclick="runFullDiagnostic()">🚀 完整诊断</button>
+                <button onclick="clearLogs()">🗑️ 清空日志</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 实时日志</h2>
+            <div id="realtime-log"></div>
+        </div>
+
+        <div class="section">
+            <h2>📋 测试结果摘要</h2>
+            <div id="summary"></div>
+        </div>
+    </div>
+
+    <script>
+        const logContainer = document.getElementById('realtime-log');
+        const summaryContainer = document.getElementById('summary');
+        const results = {
+            basic: null,
+            dataJson: null,
+            pages: {},
+            cors: null,
+            headers: null
+        };
+
+        // 日志函数
+        function log(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `log ${type}`;
+            const timestamp = new Date().toLocaleTimeString('zh-CN', { hour12: false });
+            div.innerHTML = `[${timestamp}] ${message}`;
+            logContainer.insertBefore(div, logContainer.firstChild);
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function clearLogs() {
+            logContainer.innerHTML = '';
+            log('日志已清空', 'info');
+        }
+
+        // 收集环境信息
+        function collectEnvInfo() {
+            const envTable = document.getElementById('env-info');
+            const info = [
+                ['User Agent', navigator.userAgent],
+                ['Platform', navigator.platform],
+                ['Language', navigator.language],
+                ['Online', navigator.onLine ? '✅ 在线' : '❌ 离线'],
+                ['Cookie Enabled', navigator.cookieEnabled ? '✅ 启用' : '❌ 禁用'],
+                ['当前URL', window.location.href],
+                ['协议', window.location.protocol],
+                ['主机', window.location.host],
+                ['路径', window.location.pathname],
+                ['屏幕分辨率', `${screen.width}x${screen.height}`],
+                ['视口大小', `${window.innerWidth}x${window.innerHeight}`],
+                ['时区', Intl.DateTimeFormat().resolvedOptions().timeZone],
+                ['当前时间', new Date().toLocaleString('zh-CN')]
+            ];
+
+            info.forEach(([key, value]) => {
+                const row = envTable.insertRow();
+                row.insertCell(0).textContent = key;
+                row.insertCell(1).textContent = value;
+            });
+
+            log('环境信息收集完成', 'success');
+        }
+
+        // 基础测试
+        async function testBasic() {
+            log('开始基础测试...', 'info');
+            
+            try {
+                // 测试1: DOM API
+                log('测试 DOM API...', 'info');
+                const testDiv = document.createElement('div');
+                testDiv.textContent = 'Test';
+                log('✅ DOM API 正常', 'success');
+
+                // 测试2: Console API
+                log('测试 Console API...', 'info');
+                console.log('Console test');
+                log('✅ Console API 正常', 'success');
+
+                // 测试3: Fetch API
+                log('测试 Fetch API 可用性...', 'info');
+                if (typeof fetch === 'function') {
+                    log('✅ Fetch API 可用', 'success');
+                } else {
+                    log('❌ Fetch API 不可用', 'error');
+                }
+
+                // 测试4: Promise
+                log('测试 Promise...', 'info');
+                await new Promise(resolve => setTimeout(resolve, 100));
+                log('✅ Promise 正常', 'success');
+
+                // 测试5: JSON
+                log('测试 JSON API...', 'info');
+                const testObj = { test: true };
+                JSON.stringify(testObj);
+                JSON.parse('{"test":true}');
+                log('✅ JSON API 正常', 'success');
+
+                results.basic = true;
+                log('🎉 基础测试全部通过！', 'success');
+            } catch (error) {
+                results.basic = false;
+                log(`❌ 基础测试失败: ${error.message}`, 'error');
+                console.error(error);
+            }
+            
+            updateSummary();
+        }
+
+        // 测试 data.json
+        async function testDataJson() {
+            log('开始测试 data.json...', 'info');
+            
+            try {
+                log('发起 GET 请求: data.json', 'info');
+                const startTime = performance.now();
+                
+                const response = await fetch('data.json');
+                const loadTime = (performance.now() - startTime).toFixed(2);
+                
+                log(`响应状态: ${response.status} ${response.statusText}`, 'info');
+                log(`响应时间: ${loadTime}ms`, 'info');
+                log(`Content-Type: ${response.headers.get('content-type')}`, 'info');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                log('✅ JSON 解析成功', 'success');
+                log(`总记录数: ${data.totalRecords}`, 'info');
+                log(`IP版本: ${data.ipVersion}`, 'info');
+                log(`记录数组长度: ${data.records.length}`, 'info');
+                
+                if (data.records.length > 0) {
+                    const firstRecord = data.records[0];
+                    log(`第一条记录规则数: ${firstRecord.rules.length}`, 'info');
+                }
+                
+                results.dataJson = true;
+                log('🎉 data.json 测试通过！', 'success');
+                
+                // 显示数据预览
+                const preview = document.createElement('pre');
+                preview.textContent = JSON.stringify(data, null, 2).substring(0, 500) + '\n...';
+                logContainer.insertBefore(preview, logContainer.firstChild);
+                
+            } catch (error) {
+                results.dataJson = false;
+                log(`❌ data.json 测试失败: ${error.message}`, 'error');
+                console.error('详细错误:', error);
+            }
+            
+            updateSummary();
+        }
+
+        // 测试所有页面
+        async function testAllPages() {
+            const pages = [
+                'index.html',
+                'test.html',
+                'debug.html',
+                'static.html',
+                'ultimate.html',
+                'diagnostic.html'
+            ];
+            
+            log(`开始测试 ${pages.length} 个页面...`, 'info');
+            
+            for (const page of pages) {
+                try {
+                    log(`测试: ${page}`, 'info');
+                    const response = await fetch(page);
+                    
+                    if (response.ok) {
+                        const contentType = response.headers.get('content-type');
+                        const size = response.headers.get('content-length') || '未知';
+                        log(`✅ ${page} - ${response.status} (${contentType}, ${size} bytes)`, 'success');
+                        results.pages[page] = true;
+                    } else {
+                        log(`⚠️ ${page} - ${response.status} ${response.statusText}`, 'warn');
+                        results.pages[page] = false;
+                    }
+                } catch (error) {
+                    log(`❌ ${page} - ${error.message}`, 'error');
+                    results.pages[page] = false;
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            log('页面测试完成', 'success');
+            updateSummary();
+        }
+
+        // CORS 测试
+        async function testCORS() {
+            log('开始 CORS 测试...', 'info');
+            
+            try {
+                const response = await fetch('data.json', {
+                    method: 'GET',
+                    mode: 'cors',
+                    credentials: 'same-origin'
+                });
+                
+                log(`CORS Mode: cors`, 'info');
+                log(`Status: ${response.status}`, 'info');
+                
+                const corsHeaders = [
+                    'access-control-allow-origin',
+                    'access-control-allow-methods',
+                    'access-control-allow-headers'
+                ];
+                
+                corsHeaders.forEach(header => {
+                    const value = response.headers.get(header);
+                    if (value) {
+                        log(`✅ ${header}: ${value}`, 'success');
+                    } else {
+                        log(`ℹ️ ${header}: (未设置)`, 'info');
+                    }
+                });
+                
+                results.cors = true;
+                log('CORS 测试完成', 'success');
+                
+            } catch (error) {
+                results.cors = false;
+                log(`❌ CORS 测试失败: ${error.message}`, 'error');
+            }
+            
+            updateSummary();
+        }
+
+        // 响应头测试
+        async function testHeaders() {
+            log('开始响应头测试...', 'info');
+            
+            try {
+                const response = await fetch('data.json');
+                
+                log('所有响应头:', 'info');
+                const headersTable = document.createElement('table');
+                headersTable.innerHTML = '<tr><th>Header</th><th>Value</th></tr>';
+                
+                for (const [key, value] of response.headers.entries()) {
+                    log(`${key}: ${value}`, 'info');
+                    const row = headersTable.insertRow();
+                    row.insertCell(0).textContent = key;
+                    row.insertCell(1).textContent = value;
+                }
+                
+                logContainer.insertBefore(headersTable, logContainer.firstChild);
+                
+                results.headers = true;
+                log('响应头测试完成', 'success');
+                
+            } catch (error) {
+                results.headers = false;
+                log(`❌ 响应头测试失败: ${error.message}`, 'error');
+            }
+            
+            updateSummary();
+        }
+
+        // 完整诊断
+        async function runFullDiagnostic() {
+            log('🚀 开始完整诊断流程...', 'info');
+            clearLogs();
+            
+            await testBasic();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testDataJson();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testAllPages();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testCORS();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testHeaders();
+            
+            log('✅ 完整诊断完成！', 'success');
+            log('请查看上方的测试结果摘要', 'info');
+        }
+
+        // 更新摘要
+        function updateSummary() {
+            let html = '<table><tr><th>测试项</th><th>状态</th></tr>';
+            
+            const addRow = (name, status) => {
+                const badge = status === true ? 
+                    '<span class="status-badge status-ok">✅ 通过</span>' :
+                    status === false ?
+                    '<span class="status-badge status-fail">❌ 失败</span>' :
+                    '<span class="status-badge status-unknown">⏳ 未测试</span>';
+                html += `<tr><td>${name}</td><td>${badge}</td></tr>`;
+            };
+            
+            addRow('基础功能', results.basic);
+            addRow('data.json加载', results.dataJson);
+            addRow('CORS', results.cors);
+            addRow('响应头', results.headers);
+            
+            for (const [page, status] of Object.entries(results.pages)) {
+                addRow(`页面: ${page}`, status);
+            }
+            
+            html += '</table>';
+            summaryContainer.innerHTML = html;
+        }
+
+        // 全局错误捕获
+        window.addEventListener('error', (event) => {
+            log(`🔥 全局错误: ${event.message} (${event.filename}:${event.lineno})`, 'error');
+        });
+
+        window.addEventListener('unhandledrejection', (event) => {
+            log(`🔥 未处理的Promise拒绝: ${event.reason}`, 'error');
+        });
+
+        // 页面加载完成
+        window.addEventListener('load', () => {
+            log('📄 页面加载完成', 'success');
+            collectEnvInfo();
+            updateSummary();
+            
+            log('💡 提示: 点击上方按钮开始测试', 'info');
+            log('建议先运行"完整诊断"获取全部信息', 'info');
+        });
+
+        log('🔬 诊断工具已初始化', 'success');
+    </script>
+</body>
+</html>
