@@ -10,14 +10,14 @@
 
 | 验证项 | 状态 | 详情 |
 |--------|------|------|
-| Template IDs (901-904, 400) | ✅ | 完全符合 draft 定义 |
+| Template IDs (900-903, 400/410/420/430/440) | ✅ | SubTemplate 固定 + exporter-side 三套观测模板 |
 | RFC6313 Semantic Values | ✅ | Allowlist=0x03, Blocklist=0x01 |
 | RFC7011 Message Format | ✅ | Version=10, 正确的消息头/Set格式 |
 | SubTemplateList Encoding | ✅ | 符合 RFC6313 编码规范 |
 | Multi-Element Lists | ✅ | 测试 1/2/3 元素成功 |
 | Transport Support | ✅ | TCP/UDP ready, SCTP API available |
 
-**合规性评分: A+ (优秀)** - Production-ready
+注：本仓库以“语义自证 + exporter-side 聚合”的新架构为准，历史 demo/报告仅作为参考。
 
 详细验证报告: [docs/COMPLIANCE_REPORT.md](docs/COMPLIANCE_REPORT.md)
 
@@ -54,35 +54,21 @@ c-implementation/
 ### 1. 编译
 
 ```bash
+cd c-implementation
 make clean
-make
+make tests
 ```
 
 ### 2. 运行端到端测试
 
 ```bash
-./test/test_sav_e2e
+./build/bin/test_test_sav_e2e
 ```
 
 **输出示例:**
 ```
-╔═════════════════════════════════════════════════════╗
-║      SAV IPFIX End-to-End Test (libfixbuf)         ║
-╚═════════════════════════════════════════════════════╝
-
-[Export] Record 1: ruleType=0, 1 sub-record(s)
-[Export] Record 2: ruleType=1, 2 sub-record(s)
-[Export] Record 3: ruleType=0, 3 sub-record(s)
-
-✅ Exported 3 records to test_sav_e2e.ipfix
-
-[Collect] Record #1: Timestamp=..., RuleType=0, SubTemplateList(1 elements)
-[Collect] Record #2: Timestamp=..., RuleType=1, SubTemplateList(2 elements)
-[Collect] Record #3: Timestamp=..., RuleType=0, SubTemplateList(3 elements)
-
-✅ Collected 3 records from test_sav_e2e.ipfix
-
-✅ END-TO-END TEST PASSED!
+[OK] Generated semantic-consistent spoofed packets
+[OK] Exported observation models (T1/T2/T3) to test_sav_e2e.ipfix
 ```
 
 ### 3. 验证 IPFIX 文件格式
@@ -106,19 +92,55 @@ ipfixDump --in test_sav_e2e.ipfix --rfc5610
 
 | ID | 名称 | 说明 |
 |----|------|------|
-| 400 | Main Data Record | 主SAV数据记录 |
-| 901 | savIPv4InterfacePrefix | IPv4 接口→前缀映射 |
-| 902 | savIPv6InterfacePrefix | IPv6 接口→前缀映射 |
-| 903 | savIPv4PrefixInterface | IPv4 前缀→接口映射 |
-| 904 | savIPv6PrefixInterface | IPv6 前缀→接口映射 |
+| 400 | T1 (record) | Rule-Outcome 视角（最细） |
+| 410 | T2 IPv4 (record) | Interface 视角（包含 sourceIPv4Address） |
+| 420 | T2 IPv6 (record) | Interface 视角（包含 sourceIPv6Address） |
+| 430 | T3 IPv4 (record) | Prefix / Mode 视角（IPv4 前缀聚合） |
+| 440 | T3 IPv6 (record) | Prefix / Mode 视角（IPv6 前缀聚合） |
+| 500 | Template A IPv4 (record) | 运维监控视角（IPv4） |
+| 501 | Template A IPv6 (record) | 运维监控视角（IPv6） |
+| 502 | Template B IPv4 (record) | 事件调查视角（IPv4，按需启用 `SAV_ENABLE_TEMPLATE_B=1`） |
+| 503 | Template B IPv6 (record) | 事件调查视角（IPv6，按需启用 `SAV_ENABLE_TEMPLATE_B=1`） |
+| 900 | savIPv4InterfacePrefix (subTemplate) | IPv4：接口→前缀映射 |
+| 901 | savIPv6InterfacePrefix (subTemplate) | IPv6：接口→前缀映射 |
+| 902 | savIPv4PrefixInterface (subTemplate) | IPv4：前缀→接口映射 |
+| 903 | savIPv6PrefixInterface (subTemplate) | IPv6：前缀→接口映射 |
 
 ## 📊 关键特性
+
+## 🧾 Task 2：硬编码 SAV rule tuples（仅用于 STL 导出）
+
+注意：这些 tuples **只用于填充** `savMatchedContentList`（SubTemplateList），不参与任何判定逻辑；本仓库生成的测试流量为 **spoofed-only**，并且不使用 `savPolicyAction=permit`。
+
+### IPv4
+
+| Mode | 语义 | Rule tuples | subTemplateID |
+|------|------|------------|---------------|
+| M1 | allowlist + interface-based | ingressInterface=5001 allows: 10.0.0.0/24, 10.0.1.0/24, 10.0.2.0/24 | 900 |
+| M2 | allowlist + prefix-based | sourceIPv4Prefix=192.0.2.0/24 allows ingress: 5002, 5003 | 902 |
+| M3 | blocklist + interface-based | ingressInterface=5004 blocks: 203.0.113.0/24 | 900 |
+| M4 | blocklist + prefix-based | sourceIPv4Prefix=198.51.100.0/24 blocks ingress: 5005 | 902 |
+
+### IPv6
+
+| Mode | 语义 | Rule tuples | subTemplateID |
+|------|------|------------|---------------|
+| M1 | allowlist + interface-based | ingressInterface=6001 allows: 2001:db8:1::/48, 2001:db8:2::/48 | 901 |
+| M2 | allowlist + prefix-based | sourceIPv6Prefix=2001:db8:100::/48 allows ingress: 6001, 6002 | 903 |
+| M3 | blocklist + interface-based | ingressInterface=6003 blocks: 2001:db8:abcd::/48 | 901 |
+| M4 | blocklist + prefix-based | sourceIPv6Prefix=2001:db8:dcba::/48 blocks ingress: 6004 | 903 |
 
 ### 1. RFC6313 SubTemplateList 支持
 
 正确实现 SubTemplateList 语义值：
-- **Allowlist (rule_type=1):** `allOf` (0x03)
-- **Blocklist (rule_type=2):** `exactlyOneOf` (0x01)
+- **Allowlist (savRuleType=0):** `allOf` (0x03)
+- **Blocklist (savRuleType=1):** `exactlyOneOf` (0x01)
+
+并强制执行（新架构）：
+
+- allowlist：list length ≥ 1
+- blocklist：list length = 1
+- 同一条 Data Record 的 subTemplateID 不混用
 
 ### 2. 结构体对齐处理
 
@@ -139,51 +161,7 @@ typedef struct sav_data_record_st {
 test_sav_e2e.c 实现了完整的：
 1. ✅ SAV 记录导出 (Exporter)
 2. ✅ IPFIX 文件生成
-3. ✅ SAV 记录收集 (Collector)
-4. ✅ 数据完整性验证
-
-## 📖 使用示例
-
-### 导出 SAV 记录
-
-```c
-#include "sav_exporter.h"
-
-sav_export_ctx_t ctx;
-sav_export_init(&ctx, "output.ipfix", 1, 0, NULL);
-
-// 添加 IPv4 映射
-sav_ipv4_mapping_t mapping = {
-    .ingressInterface = 10,
-    .sourceIPv4Prefix = htonl(0xC0000200),  // 192.0.2.0
-    .sourceIPv4PrefixLength = 24
-};
-sav_export_add_ipv4_entry(&ctx, &mapping);
-
-// 导出记录
-sav_export_record(&ctx, 1, 0, 1, time(NULL) * 1000, NULL);
-
-sav_export_close(&ctx, NULL);
-```
-
-### 收集 SAV 记录
-
-```c
-#include "sav_collector.h"
-
-sav_collect_ctx_t ctx;
-sav_collect_init(&ctx, "input.ipfix", NULL);
-
-sav_data_record_t record;
-while (sav_collect_next(&ctx, &record, NULL)) {
-    printf("Rule Type: %u, Target Type: %u\n", 
-           record.savRuleType, record.savTargetType);
-    
-    // 处理 SubTemplateList...
-}
-
-sav_collect_close(&ctx, NULL);
-```
+3. ✅ 生成并导出 T1/T2/T3（新架构）
 
 ## 🧪 测试覆盖
 
@@ -253,7 +231,7 @@ make tools
 1. ⏳ 添加 IPv6 映射的实际测试
 2. ⏳ 实现网络传输 (TCP collector/exporter)
 3. ⏳ 性能基准测试
-4. ⏳ 与 Go 实现的互操作性测试
+4. ⏳ 与其他实现的互操作性测试
 
 ## 📝 开发者注意事项
 

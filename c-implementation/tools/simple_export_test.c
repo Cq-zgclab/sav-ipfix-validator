@@ -73,8 +73,8 @@ int main(int argc, char **argv)
     }
     printf("  ✓ Exporter created\n");
     
-    /* WORKAROUND: Manually set sub-template as export template before exporting templates
-     * This tells libfixbuf that sub-template 901 is available for SubTemplateList encoding */
+    /* WORKAROUND: Manually set STL sub-template as export template before exporting templates
+     * This tells libfixbuf that the SubTemplateList sub-template is available for encoding */
     if (!fBufSetExportTemplate(exporter, SAV_TMPL_IPV4_INTERFACE_PREFIX, &err)) {
         fprintf(stderr, "ERROR: Failed to set sub-template: %s\n", err->message);
         g_error_free(err);
@@ -84,7 +84,7 @@ int main(int argc, char **argv)
         return 1;
     }
     /* Reset back to main template */
-    if (!fBufSetExportTemplate(exporter, SAV_MAIN_TEMPLATE_ID, &err)) {
+    if (!fBufSetExportTemplate(exporter, SAV_T1_TEMPLATE, &err)) {
         fprintf(stderr, "ERROR: Failed to reset main template: %s\n", err->message);
         g_error_free(err);
         sav_close_exporter(exporter);

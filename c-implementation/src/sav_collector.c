@@ -77,7 +77,7 @@ sav_collector_ctx_t* sav_create_file_collector(
     }
     
     /* Set internal template for reading */
-    if (!fBufSetInternalTemplate(ctx->fbuf, SAV_MAIN_TEMPLATE_ID, err)) {
+    if (!fBufSetInternalTemplate(ctx->fbuf, SAV_T1_TEMPLATE, err)) {
         fBufFree(ctx->fbuf);
         fbSessionFree(ctx->session);
         fbInfoModelFree(ctx->model);
@@ -113,7 +113,7 @@ static gboolean parse_subtmpl_list(
         return TRUE;
     }
     
-    /* Determine if IPv4 or IPv6 based on template ID */
+    /* Determine if IPv4 or IPv6 based on template ID (Task 1: 900-903) */
     gboolean is_ipv4 = (record->sub_template_id == SAV_TMPL_IPV4_INTERFACE_PREFIX ||
                         record->sub_template_id == SAV_TMPL_IPV4_PREFIX_INTERFACE);
     gboolean is_ipv6 = (record->sub_template_id == SAV_TMPL_IPV6_INTERFACE_PREFIX ||
@@ -178,7 +178,7 @@ gboolean sav_read_record(
     memset(record, 0, sizeof(*record));
     
     /* Read raw IPFIX record */
-    sav_data_record_t raw_record;
+    sav_t1_record_t raw_record;
     memset(&raw_record, 0, sizeof(raw_record));
     
     size_t len = sizeof(raw_record);
@@ -196,7 +196,7 @@ gboolean sav_read_record(
     }
     
     /* Extract basic fields */
-    record->timestamp_ms = raw_record.observationTimeMilliseconds;
+    record->timestamp_ms = raw_record.flowEndMilliseconds;
     record->rule_type = raw_record.savRuleType;
     record->target_type = raw_record.savTargetType;
     record->policy_action = raw_record.savPolicyAction;
@@ -289,25 +289,25 @@ void sav_print_record(
         fprintf(output, "\nMappings:\n");
         
         gboolean is_ipv4 = (record->sub_template_id == SAV_TMPL_IPV4_INTERFACE_PREFIX ||
-                            record->sub_template_id == SAV_TMPL_IPV4_PREFIX_INTERFACE);
+                    record->sub_template_id == SAV_TMPL_IPV4_PREFIX_INTERFACE);
         
         for (uint32_t i = 0; i < record->mapping_count; i++) {
             if (is_ipv4) {
                 sav_ipv4_mapping_t *m = &record->mappings.ipv4_mappings[i];
                 struct in_addr addr;
-                addr.s_addr = m->sourceIPv4Prefix;
+                addr.s_addr = htonl(m->sourceIPv4Prefix);
                 char ip_str[INET_ADDRSTRLEN];
                 inet_ntop(AF_INET, &addr, ip_str, sizeof(ip_str));
                 
                 fprintf(output, "  [%u] Interface %u <-> %s/%u\n",
-                        i, ntohl(m->ingressInterface), ip_str, m->sourceIPv4PrefixLength);
+                    i, m->ingressInterface, ip_str, m->sourceIPv4PrefixLength);
             } else {
                 sav_ipv6_mapping_t *m = &record->mappings.ipv6_mappings[i];
                 char ip_str[INET6_ADDRSTRLEN];
                 inet_ntop(AF_INET6, m->sourceIPv6Prefix, ip_str, sizeof(ip_str));
                 
                 fprintf(output, "  [%u] Interface %u <-> %s/%u\n",
-                        i, ntohl(m->ingressInterface), ip_str, m->sourceIPv6PrefixLength);
+                    i, m->ingressInterface, ip_str, m->sourceIPv6PrefixLength);
             }
         }
     }
@@ -342,11 +342,11 @@ void sav_export_record_json(
         if (is_ipv4) {
             sav_ipv4_mapping_t *m = &record->mappings.ipv4_mappings[i];
             struct in_addr addr;
-            addr.s_addr = m->sourceIPv4Prefix;
+            addr.s_addr = htonl(m->sourceIPv4Prefix);
             char ip_str[INET_ADDRSTRLEN];
             inet_ntop(AF_INET, &addr, ip_str, sizeof(ip_str));
             
-            fprintf(output, "      \"interface\": %u,\n", ntohl(m->ingressInterface));
+            fprintf(output, "      \"interface\": %u,\n", m->ingressInterface);
             fprintf(output, "      \"prefix\": \"%s\",\n", ip_str);
             fprintf(output, "      \"prefix_length\": %u\n", m->sourceIPv4PrefixLength);
         } else {
@@ -354,7 +354,7 @@ void sav_export_record_json(
             char ip_str[INET6_ADDRSTRLEN];
             inet_ntop(AF_INET6, m->sourceIPv6Prefix, ip_str, sizeof(ip_str));
             
-            fprintf(output, "      \"interface\": %u,\n", ntohl(m->ingressInterface));
+            fprintf(output, "      \"interface\": %u,\n", m->ingressInterface);
             fprintf(output, "      \"prefix\": \"%s\",\n", ip_str);
             fprintf(output, "      \"prefix_length\": %u\n", m->sourceIPv6PrefixLength);
         }
@@ -401,7 +401,7 @@ gboolean sav_validate_record(
         record->sub_template_id != expected_tmpl + 1) { /* Allow IPv4/IPv6 variance */
         /* More flexible check */
         gboolean valid_tmpl = (record->sub_template_id >= SAV_TMPL_IPV4_INTERFACE_PREFIX &&
-                               record->sub_template_id <= SAV_TMPL_IPV6_PREFIX_INTERFACE);
+                       record->sub_template_id <= SAV_TMPL_IPV6_PREFIX_INTERFACE);
         if (!valid_tmpl) {
             g_set_error(err, FB_ERROR_DOMAIN, FB_ERROR_SETUP,
                         "Invalid sub-template ID: %u", record->sub_template_id);

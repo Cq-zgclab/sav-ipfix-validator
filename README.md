@@ -2,59 +2,9 @@
 
 Source Address Validation (SAV) telemetry using IPFIX protocol.
 
-**Three Independent Implementations:**
-- 🎬 **Demo System** - Real-time streaming demo (NEW! Recommended for demos)
-- 🐹 **Go Implementation** - Production-ready, data generation and parsing
-- 🔧 **C Implementation** - Research prototype using libfixbuf
+**C 参考实现（hackathon 使用）**
+- 🔧 **C Implementation** - libfixbuf-based exporter/collector prototype
 
----
-
-## 🎬 Real-Time Streaming Demo (NEW!)
-
-**最佳演示体验** - 实时流式 SAV IPFIX 遥测展示系统
-
-### Quick Start
-```bash
-cd sav-demo-lite
-./sav-demo-lite
-# Open: http://localhost:8888
-```
-
-### Features
-- 🔄 **Real-time SSE streaming** - 27 SAV IPFIX records
-- 🎮 **Playback control** - Start/Pause/Reset/Speed (0.5x~4x)
-- 📊 **Live analysis panels** - Root cause, mode stats, policy tracking
-- ⚡ **Dynamic visualization** - Timeline + Event stream + Charts
-
-**Perfect for**: Hackathon demos, technical presentations, SAV concept validation
-
-See `sav-demo-lite/README.md` and `sav-demo-lite/DEMO_SCRIPT.md` for details.
-
----
-
-## 🐹 Go Implementation (Recommended)
-
-### Quick Start
-
-```bash
-cd go-implementation
-
-# 1. Generate IPFIX data
-go build -o bin/exporter ./cmd/exporter
-./bin/exporter --scenario all --output data/all_scenarios.ipfix
-
-# 2. Convert to JSON
-go build -o bin/collector_json ./cmd/collector_json
-./bin/collector_json --input data/all_scenarios.ipfix --output web/data.json
-
-# 3. View Dashboard
-python3 -m http.server 8000
-# Open: http://localhost:8000/web/index.html
-```
-
-See `go-implementation/README.md` for complete documentation.
-
----
 
 ## 🔧 C Implementation (Research)
 
@@ -63,13 +13,10 @@ Using libfixbuf for IPFIX encoding/decoding.
 ```bash
 cd c-implementation
 
-# Build
-mkdir -p build && cd build
-cmake ..
-make
-
-# Run exporter
-./sav_exporter
+# Build + run E2E exporter
+make clean
+make tests
+./build/bin/test_test_sav_e2e
 ```
 
 See `c-implementation/README.md` for details.
@@ -105,22 +52,7 @@ See `c-implementation/README.md` for details.
 
 ```
 sav-ipfix-validator/
-├── go-implementation/          # Go implementation (production-ready)
-│   ├── cmd/                    # Command-line tools
-│   │   ├── exporter/          # IPFIX data generator
-│   │   ├── collector/         # Console IPFIX reader
-│   │   └── collector_json/    # IPFIX to JSON converter
-│   ├── pkg/sav/               # Core library
-│   │   ├── constants.go       # SAV IE definitions
-│   │   ├── scenarios.go       # Demo scenarios
-│   │   ├── writer.go          # IPFIX encoder
-│   │   └── reader.go          # IPFIX decoder
-│   ├── web/                   # Visualization dashboard
-│   │   ├── index.html         # Interactive dashboard
-│   │   └── data.json          # IPFIX data (generated)
-│   ├── data/                  # Generated IPFIX files
-│   └── README.md              # Go implementation guide
-│
+
 ├── c-implementation/           # C implementation (research)
 │   ├── src/                   # Source files
 │   ├── include/               # Headers
@@ -134,22 +66,21 @@ sav-ipfix-validator/
 
 ## 🛠️ Development
 
-See `HACKATHON_PLAN.md` for complete implementation details.
+实现口径与可复现路径以 C 实现的新架构为准：
+
+- `c-implementation/T1_T2_T3_ARCHITECTURE.md`
+- `docs/ENGINEERING_GUIDE.md`
 
 **Key Technical Decisions**:
-- Pure binary IPFIX encoding (no high-level library APIs)
-- Direct RFC 6313 SubTemplateList implementation
-- Avoids libfixbuf's complexity and template lookup issues
-
-See `docs/STL_IMPLEMENTATION_COMPARISON.md` for technical rationale.
+- Uses libfixbuf for IPFIX encoding/decoding
+- Uses RFC 6313 SubTemplateList (STL)
+- Requires explicit struct/template alignment (incl. `paddingOctets`)
 
 ## 📖 Documentation
 
-- `HACKATHON_PLAN.md` - Complete hackathon implementation plan
-- `docs/STL_IMPLEMENTATION_COMPARISON.md` - Why manual encoding works better
-- `docs/SCTP_SUPPORT.md` - Future network transport implementation
-- `GO_IMPLEMENTATION_TODO.md` - 9-phase roadmap for full implementation
-- `REVIEW_REPORT.md` - Semantic correctness validation
+- `c-implementation/T1_T2_T3_ARCHITECTURE.md` - 新架构说明（权威）
+- `docs/ENGINEERING_GUIDE.md` - 工程实施规范/踩坑 checklist/验收标准（原文汇编）
+
 
 ## 🔗 References
 

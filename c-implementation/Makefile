@@ -35,7 +35,10 @@ TOOLS_TARGETS = $(patsubst $(TOOLS_DIR)/%.c,$(BIN_DIR)/%,$(TOOLS_SOURCES))
 
 # Test programs
 TEST_SOURCES = $(wildcard $(TEST_DIR)/*.c)
-TEST_TARGETS = $(patsubst $(TEST_DIR)/%.c,$(BIN_DIR)/test_%,$(TEST_SOURCES))
+E2E_SOURCE = $(TEST_DIR)/test_sav_e2e.c
+OTHER_TEST_SOURCES = $(filter-out $(E2E_SOURCE),$(TEST_SOURCES))
+TEST_TARGETS = $(patsubst $(TEST_DIR)/%.c,$(BIN_DIR)/test_%,$(OTHER_TEST_SOURCES))
+TEST_TARGETS += $(BIN_DIR)/sav_e2e_demo
 
 # Targets
 .PHONY: all clean lib tools tests examples help install
@@ -47,6 +50,11 @@ lib: $(LIB_TARGET)
 tools: lib $(TOOLS_TARGETS)
 
 tests: lib $(TEST_TARGETS)
+
+# Build the hackathon E2E demo binary (named for demo clarity)
+$(BIN_DIR)/sav_e2e_demo: $(E2E_SOURCE) $(LIB_TARGET) | $(BIN_DIR)
+	@echo "Building demo: $@"
+	$(CC) $(CFLAGS) -o $@ $< $(LIB_TARGET) $(LDFLAGS)
 
 examples: lib
 	@echo "Building examples..."

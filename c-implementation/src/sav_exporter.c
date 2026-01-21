@@ -35,8 +35,8 @@ gboolean sav_record_ctx_init(
     ctx->model = model;
     ctx->session = session;
     
-    /* Get main template */
-    ctx->main_tmpl = fbSessionGetTemplate(session, TRUE, SAV_MAIN_TEMPLATE_ID, err);
+    /* Get T1 template (Task 1: 400) */
+    ctx->main_tmpl = fbSessionGetTemplate(session, TRUE, SAV_T1_TEMPLATE, err);
     if (!ctx->main_tmpl) {
         return FALSE;
     }
@@ -59,8 +59,8 @@ gboolean sav_record_ctx_init(
     g_debug("Got internal template %u for SubTemplateList", tmpl_id);
     
     /* Calculate entry size based on sub-template */
-    /* Template 901/902: ingressInterface(4) + prefix(4/16) + prefixLen(1) = 9/21 bytes */
-    /* Template 903/904: prefix(4/16) + prefixLen(1) + ingressInterface(4) = 9/21 bytes */
+    /* Template 900/901: ingressInterface(4) + prefix(4/16) + prefixLen(1) = 9/21 bytes */
+    /* Template 902/903: prefix(4/16) + prefixLen(1) + ingressInterface(4) = 9/21 bytes */
     if (tmpl_id == SAV_TMPL_IPV4_INTERFACE_PREFIX || tmpl_id == SAV_TMPL_IPV4_PREFIX_INTERFACE) {
         ctx->entry_size = 4 + 4 + 1; /* interface(4) + ipv4(4) + prefixlen(1) = 9 */
     } else {
@@ -193,7 +193,7 @@ gboolean sav_add_ipv4_prefix_interface(
     if (!check_capacity(ctx, err)) {
         return FALSE;
     }
-    
+
     if (prefix_len > 32) {
         g_set_error(err, FB_ERROR_DOMAIN, FB_ERROR_SETUP,
                     "Invalid IPv4 prefix length: %u", prefix_len);
@@ -273,11 +273,15 @@ gboolean sav_export_record(
     }
     
     /* Internal template should already be set by sav_create_file_exporter */
-    /* Prepare SAV main record structure */
-    sav_data_record_t record;
+    /* Prepare T1 record structure (template 400) */
+    sav_t1_record_t record;
     memset(&record, 0, sizeof(record));
-    
-    record.observationTimeMilliseconds = timestamp_ms;
+
+    record.flowStartMilliseconds = timestamp_ms;
+    record.flowEndMilliseconds = timestamp_ms;
+    record.packetDeltaCount = 0;
+    record.octetDeltaCount = 0;
+    record.ingressInterface = 0;
     record.savRuleType = rule_type;
     record.savTargetType = target_type;
     record.savPolicyAction = policy_action;
@@ -331,7 +335,7 @@ gboolean sav_export_record(
     
     /* CRITICAL: Set both internal and export templates before fBufAppend
      * Using libfixbuf 3.x API */
-    if (!fBufSetTemplatesForExport(exporter, SAV_MAIN_TEMPLATE_ID, err)) {
+    if (!fBufSetTemplatesForExport(exporter, SAV_T1_TEMPLATE, err)) {
         fbSubTemplateListClear(&record.savMatchedContentList);
         return FALSE;
     }
@@ -382,17 +386,18 @@ fBuf_t* sav_create_file_exporter(
         g_debug("fBuf session matches input session");
     }
     
-    /* Test: Can we get template 901 from the fBuf's session? */
+    /* Test: Can we get STL templates from the fBuf's session? */
     GError *tmp_err = NULL;
     fbTemplate_t *test_tmpl = fbSessionGetTemplate(fbuf_session, FALSE, 
                                                      SAV_TMPL_IPV4_INTERFACE_PREFIX, 
                                                      &tmp_err);
     if (!test_tmpl) {
-        g_warning("Cannot get template 901 from fBuf session: %s",
+        g_warning("Cannot get STL template %u from fBuf session: %s",
+                  SAV_TMPL_IPV4_INTERFACE_PREFIX,
                   tmp_err ? tmp_err->message : "unknown");
         if (tmp_err) g_error_free(tmp_err);
     } else {
-        g_debug("Template 901 found in fBuf session (external)");
+        g_debug("STL template %u found in fBuf session (external)", SAV_TMPL_IPV4_INTERFACE_PREFIX);
     }
     
     /* Now also check internal template */
@@ -401,11 +406,12 @@ fBuf_t* sav_create_file_exporter(
                                       SAV_TMPL_IPV4_INTERFACE_PREFIX, 
                                       &tmp_err);
     if (!test_tmpl) {
-        g_warning("Cannot get template 901 as INTERNAL from fBuf session: %s",
+        g_warning("Cannot get STL template %u as INTERNAL from fBuf session: %s",
+                  SAV_TMPL_IPV4_INTERFACE_PREFIX,
                   tmp_err ? tmp_err->message : "unknown");
         if (tmp_err) g_error_free(tmp_err);
     } else {
-        g_debug("Template 901 found in fBuf session (internal)");
+        g_debug("STL template %u found in fBuf session (internal)", SAV_TMPL_IPV4_INTERFACE_PREFIX);
     }
     
     /* Mark all sub-templates as export templates */
@@ -434,12 +440,12 @@ fBuf_t* sav_create_file_exporter(
     }
     g_debug("Templates exported successfully");
     
-    /* Set main template using the new libfixbuf 3.x API */
-    if (!fBufSetTemplatesForExport(fbuf, SAV_MAIN_TEMPLATE_ID, err)) {
+    /* Set T1 template using the new libfixbuf 3.x API */
+    if (!fBufSetTemplatesForExport(fbuf, SAV_T1_TEMPLATE, err)) {
         fBufFree(fbuf);
         return NULL;
     }
-    g_debug("Main template %u set as current (both internal and external)", SAV_MAIN_TEMPLATE_ID);
+    g_debug("T1 template %u set as current (both internal and external)", SAV_T1_TEMPLATE);
     
     return fbuf;
 }

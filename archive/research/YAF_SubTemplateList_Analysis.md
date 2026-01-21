@@ -531,7 +531,7 @@ gboolean sav_exporter_init_templates(
     exporter->templates.matchedContentTemplate = intTmpl;
     
     // === 对其他子模板重复相同过程 ===
-    // ... 902, 903, 904 ...
+    // ... 900–903 ...
     
     return TRUE;
 }

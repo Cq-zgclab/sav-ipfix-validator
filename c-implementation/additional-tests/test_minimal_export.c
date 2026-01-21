@@ -53,12 +53,12 @@ int main(int argc, char **argv)
     
     /* Set templates */
     printf("\nStep 4: Setting templates...\n");
-    if (!fBufSetExportTemplate(fbuf, SAV_MAIN_TEMPLATE_ID, &err)) {
+    if (!fBufSetExportTemplate(fbuf, SAV_T1_TEMPLATE, &err)) {
         fprintf(stderr, "ERROR: Main export template: %s\n", err->message);
         g_error_free(err);
         return 1;
     }
-    if (!fBufSetInternalTemplate(fbuf, SAV_MAIN_TEMPLATE_ID, &err)) {
+    if (!fBufSetInternalTemplate(fbuf, SAV_T1_TEMPLATE, &err)) {
         fprintf(stderr, "ERROR: Main internal template: %s\n", err->message);
         g_error_free(err);
         return 1;

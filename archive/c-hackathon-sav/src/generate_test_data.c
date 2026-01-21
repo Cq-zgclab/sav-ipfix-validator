@@ -60,10 +60,10 @@
 /* Template IDs */
 #define TID_SAV_RECORD_IPV4           500  /* Main template with IPv4 five-tuple */
 #define TID_SAV_RECORD_IPV6           501  /* Main template with IPv6 five-tuple */
-#define TID_ALLOWLIST_IPV4_SUB        901
-#define TID_ALLOWLIST_IPV6_SUB        902
-#define TID_BLOCKLIST_IPV4_SUB        903
-#define TID_BLOCKLIST_IPV6_SUB        904
+#define TID_ALLOWLIST_IPV4_SUB        900
+#define TID_ALLOWLIST_IPV6_SUB        901
+#define TID_BLOCKLIST_IPV4_SUB        902
+#define TID_BLOCKLIST_IPV6_SUB        903
 
 /* Data structures */
 typedef struct {

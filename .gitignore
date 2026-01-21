@@ -1,0 +1,70 @@
+# General
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Node / web
+node_modules/
+
+# Build artifacts
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.o
+*.a
+*.so
+*.dylib
+
+# Common binaries
+*.out
+*.exe
+
+# IPFIX / capture artifacts (generated)
+*.ipfix
+*.pcap
+
+# C implementation local outputs / debug (binaries)
+c-implementation/test_*
+!c-implementation/test_*.c
+!c-implementation/test_*.h
+!c-implementation/test_*.md
+!c-implementation/test_*.txt
+
+c-implementation/test/**/test_*
+!c-implementation/test/**/test_*.c
+!c-implementation/test/**/test_*.h
+!c-implementation/test/**/test_*.md
+!c-implementation/test/**/test_*.txt
+
+c-implementation/test/**/a.out
+c-implementation/core
+c-implementation/core.*
+
+# C implementation generated outputs (data dumps)
+c-implementation/sav_*.bin
+c-implementation/sav_*.csv
+c-implementation/sav_*.json
+c-implementation/sav_*.txt
+c-implementation/sav_*.ipfix
+c-implementation/minimal_test.ipfix
+c-implementation/test_*.ipfix
+
+# C implementation build/vendor directories
+c-implementation/build/
+c-implementation/external-sources/
+c-implementation/yaf-*/
+c-implementation/additional-tests/test_data/
+
+
+# Hackathon web demo generated outputs
+c-hackathon-sav/web/data.json
+c-hackathon-sav/web/data_raw.json
+c-hackathon-sav/web/data_raw_test.json

@@ -295,10 +295,10 @@ fbSubTemplateListInit(recStl,
 
 **错误格式**：`%#10x:%04hx` = `domain:tid`
 - `0:0009` = domain 0, template ID 9
-- 我们注册的是 901 (0x0385)，不是 9 (0x0009)
+- 我们注册的是 900 (0x0384)，不是 9 (0x0009)
 
 **可能原因**：
-1. ❌ 模板ID混淆 - 但我们明确使用901
+1. ❌ 模板ID混淆 - 但我们明确使用900
 2. ❌ 域(domain)问题 - 默认应该是0
 3. ⚠️ **Template Pair 缺失？** - Super Mediator在DPI中使用了这个！
 4. ⚠️ **模板指针生命周期** - 我们用临时指针，YAF用全局保存的指针
@@ -308,7 +308,7 @@ fbSubTemplateListInit(recStl,
 
 观察：
 - ✅ 文件生成（144字节）
-- ✅ 模板都存在（901-904, 400）
+- ✅ 模板都存在（900-903, 400/410/420/430/440）
 - ❌ 0 Data Records
 - ❌ fBufAppend报错
 
@@ -322,10 +322,11 @@ fbSubTemplateListInit(recStl,
 ### 假设1：需要 Template Pair（高优先级）
 ```c
 // 在注册模板后添加：
-fbSessionAddTemplatePair(session, 901, 901);  // external=901 -> internal=901
+// Task 1 fixed IDs:
+fbSessionAddTemplatePair(session, 900, 900);
+fbSessionAddTemplatePair(session, 901, 901);
 fbSessionAddTemplatePair(session, 902, 902);
 fbSessionAddTemplatePair(session, 903, 903);
-fbSessionAddTemplatePair(session, 904, 904);
 ```
 
 **依据**：

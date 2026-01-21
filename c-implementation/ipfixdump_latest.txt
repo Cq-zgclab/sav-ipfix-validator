@@ -1,0 +1,1127 @@
+--- Message Header ---
+export time: 2026-01-05 02:38:10	observation domain id: 0
+message length: 324             	sequence number: 0 (0)
+stream offset: 0
+
+--- Template Record --- tid:   903 (0x0387), fields: 3, scope: 0 ---
+  sourceIPv6Prefix                    (170) <ipv6>        [16]
+  sourceIPv6PrefixLength               (29) <uint8>        [1]
+  ingressInterface                     (10) <uint32>       [4]
+
+--- Template Record --- tid:   500 (0x01f4), fields: 10, scope: 0 ---
+  flowStartMilliseconds               (152) <millisec>     [8]
+  flowEndMilliseconds                 (153) <millisec>     [8]
+  packetDeltaCount                      (2) <uint64>       [8]
+  octetDeltaCount                       (1) <uint64>       [8]
+  ingressInterface                     (10) <uint32>       [4]
+  sourceIPv4Prefix                     (44) <ipv4>         [4]
+  _alienInformationElement         (6871/1) <octets>       [1]
+  _alienInformationElement         (6871/2) <octets>       [1]
+  _alienInformationElement         (6871/4) <octets>       [1]
+  subTemplateList                     (292) <stl>      [65535]
+
+--- Template Record --- tid:   902 (0x0386), fields: 3, scope: 0 ---
+  sourceIPv4Prefix                     (44) <ipv4>         [4]
+  sourceIPv4PrefixLength                (9) <uint8>        [1]
+  ingressInterface                     (10) <uint32>       [4]
+
+--- Template Record --- tid:   901 (0x0385), fields: 3, scope: 0 ---
+  ingressInterface                     (10) <uint32>       [4]
+  sourceIPv6Prefix                    (170) <ipv6>        [16]
+  sourceIPv6PrefixLength               (29) <uint8>        [1]
+
+--- Template Record --- tid:   900 (0x0384), fields: 3, scope: 0 ---
+  ingressInterface                     (10) <uint32>       [4]
+  sourceIPv4Prefix                     (44) <ipv4>         [4]
+  sourceIPv4PrefixLength                (9) <uint8>        [1]
+
+--- Template Record --- tid:   503 (0x01f7), fields: 12, scope: 0 ---
+  sourceIPv6Address                    (27) <ipv6>        [16]
+  destinationIPv6Address               (28) <ipv6>        [16]
+  sourceTransportPort                   (7) <uint16>       [2]
+  destinationTransportPort             (11) <uint16>       [2]
+  ingressInterface                     (10) <uint32>       [4]
+  packetDeltaCount                      (2) <uint64>       [8]
+  flowStartMilliseconds               (152) <millisec>     [8]
+  protocolIdentifier                    (4) <uint8>        [1]
+  _alienInformationElement         (6871/1) <octets>       [1]
+  _alienInformationElement         (6871/2) <octets>       [1]
+  _alienInformationElement         (6871/4) <octets>       [1]
+  subTemplateList                     (292) <stl>      [65535]
+
+--- Template Record --- tid:   502 (0x01f6), fields: 12, scope: 0 ---
+  sourceIPv4Address                     (8) <ipv4>         [4]
+  destinationIPv4Address               (12) <ipv4>         [4]
+  sourceTransportPort                   (7) <uint16>       [2]
+  destinationTransportPort             (11) <uint16>       [2]
+  ingressInterface                     (10) <uint32>       [4]
+  packetDeltaCount                      (2) <uint64>       [8]
+  flowStartMilliseconds               (152) <millisec>     [8]
+  protocolIdentifier                    (4) <uint8>        [1]
+  _alienInformationElement         (6871/1) <octets>       [1]
+  _alienInformationElement         (6871/2) <octets>       [1]
+  _alienInformationElement         (6871/4) <octets>       [1]
+  subTemplateList                     (292) <stl>      [65535]
+
+--- Template Record --- tid:   501 (0x01f5), fields: 10, scope: 0 ---
+  flowStartMilliseconds               (152) <millisec>     [8]
+  flowEndMilliseconds                 (153) <millisec>     [8]
+  packetDeltaCount                      (2) <uint64>       [8]
+  octetDeltaCount                       (1) <uint64>       [8]
+  ingressInterface                     (10) <uint32>       [4]
+  sourceIPv6Prefix                    (170) <ipv6>        [16]
+  _alienInformationElement         (6871/1) <octets>       [1]
+  _alienInformationElement         (6871/2) <octets>       [1]
+  _alienInformationElement         (6871/4) <octets>       [1]
+  subTemplateList                     (292) <stl>      [65535]
+
+*** Msg Stats: 8 Template Records ***
+
+--- Message Header ---
+export time: 2026-01-05 02:38:10	observation domain id: 0
+message length: 4072            	sequence number: 0 (0)
+stream offset: 324
+
+--- Data Record 1 --- fields: 10, tmpl:   500 (0x01f4) ---
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.000
+  flowEndMilliseconds                 (153) : 2024-12-26 00:00:00.765
+  packetDeltaCount                      (2) : 256
+  octetDeltaCount                       (1) : 0
+  ingressInterface                     (10) : 5001
+  sourceIPv4Prefix                     (44) : 10.0.1.0
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.0.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 2 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.101.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 3 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.119.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 2 --- fields: 10, tmpl:   500 (0x01f4) ---
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:01.536
+  flowEndMilliseconds                 (153) : 2024-12-26 00:00:02.301
+  packetDeltaCount                      (2) : 256
+  octetDeltaCount                       (1) : 0
+  ingressInterface                     (10) : 5001
+  sourceIPv4Prefix                     (44) : 203.0.113.0
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 203.0.113.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 3 --- fields: 10, tmpl:   500 (0x01f4) ---
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:02.304
+  flowEndMilliseconds                 (153) : 2024-12-26 00:00:03.069
+  packetDeltaCount                      (2) : 256
+  octetDeltaCount                       (1) : 0
+  ingressInterface                     (10) : 5005
+  sourceIPv4Prefix                     (44) : 198.51.100.0
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 198.51.100.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5005
+
+--- Data Record 4 --- fields: 10, tmpl:   500 (0x01f4) ---
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.768
+  flowEndMilliseconds                 (153) : 2024-12-26 00:00:01.533
+  packetDeltaCount                      (2) : 256
+  octetDeltaCount                       (1) : 0
+  ingressInterface                     (10) : 5102
+  sourceIPv4Prefix                     (44) : 192.0.2.0
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5002
+  +--- STL Record 2 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5003
+  +--- STL Record 3 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5004
+
+--- Data Record 5 --- fields: 10, tmpl:   501 (0x01f5) ---
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:04.608
+  flowEndMilliseconds                 (153) : 2024-12-26 00:00:05.373
+  packetDeltaCount                      (2) : 256
+  octetDeltaCount                       (1) : 0
+  ingressInterface                     (10) : 6003
+  sourceIPv6Prefix                    (170) : 2001:0db8:abcd::
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6003
+  + sourceIPv6Prefix                    (170) : 2001:0db8:abcd::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 6 --- fields: 10, tmpl:   501 (0x01f5) ---
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.072
+  flowEndMilliseconds                 (153) : 2024-12-26 00:00:03.837
+  packetDeltaCount                      (2) : 256
+  octetDeltaCount                       (1) : 0
+  ingressInterface                     (10) : 6001
+  sourceIPv6Prefix                    (170) : 2001:0db8::
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 2 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d14:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 3 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d00:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 7 --- fields: 10, tmpl:   501 (0x01f5) ---
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:05.376
+  flowEndMilliseconds                 (153) : 2024-12-26 00:00:06.141
+  packetDeltaCount                      (2) : 256
+  octetDeltaCount                       (1) : 0
+  ingressInterface                     (10) : 6004
+  sourceIPv6Prefix                    (170) : 2001:0db8:dcba::
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:dcba::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 8 --- fields: 10, tmpl:   501 (0x01f5) ---
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.840
+  flowEndMilliseconds                 (153) : 2024-12-26 00:00:04.605
+  packetDeltaCount                      (2) : 256
+  octetDeltaCount                       (1) : 0
+  ingressInterface                     (10) : 6102
+  sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6002
+  +--- STL Record 2 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6003
+  +--- STL Record 3 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 9 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 198.51.100.157
+  destinationIPv4Address               (12) : 198.18.1.1
+  sourceTransportPort                   (7) : 20767
+  destinationTransportPort             (11) : 10785
+  ingressInterface                     (10) : 5005
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:02.310
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 198.51.100.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5005
+
+--- Data Record 10 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 10.0.1.9
+  destinationIPv4Address               (12) : 198.18.1.1
+  sourceTransportPort                   (7) : 20557
+  destinationTransportPort             (11) : 10961
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.012
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.0.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 2 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.101.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 3 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.119.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 11 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 10.0.1.207
+  destinationIPv4Address               (12) : 198.18.3.1
+  sourceTransportPort                   (7) : 20687
+  destinationTransportPort             (11) : 10751
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.006
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.0.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 2 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.101.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 3 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.119.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 12 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 10.0.1.141
+  destinationIPv4Address               (12) : 198.18.1.1
+  sourceTransportPort                   (7) : 20350
+  destinationTransportPort             (11) : 10669
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 52
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.000
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.0.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 2 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.101.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 3 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.119.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 13 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 198.51.100.188
+  destinationIPv4Address               (12) : 198.18.0.1
+  sourceTransportPort                   (7) : 20319
+  destinationTransportPort             (11) : 10358
+  ingressInterface                     (10) : 5005
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:02.307
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 198.51.100.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5005
+
+--- Data Record 14 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 10.0.1.172
+  destinationIPv4Address               (12) : 198.18.0.1
+  sourceTransportPort                   (7) : 20287
+  destinationTransportPort             (11) : 10858
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.003
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.0.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 2 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.101.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 3 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.119.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 15 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 192.0.2.40
+  destinationIPv4Address               (12) : 198.18.0.1
+  sourceTransportPort                   (7) : 20459
+  destinationTransportPort             (11) : 10927
+  ingressInterface                     (10) : 5102
+  packetDeltaCount                      (2) : 52
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.768
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5002
+  +--- STL Record 2 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5003
+  +--- STL Record 3 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5004
+
+--- Data Record 16 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 203.0.113.67
+  destinationIPv4Address               (12) : 198.18.3.1
+  sourceTransportPort                   (7) : 20182
+  destinationTransportPort             (11) : 10930
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:01.548
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 203.0.113.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 17 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 198.51.100.223
+  destinationIPv4Address               (12) : 198.18.3.1
+  sourceTransportPort                   (7) : 20640
+  destinationTransportPort             (11) : 10163
+  ingressInterface                     (10) : 5005
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:02.316
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 198.51.100.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5005
+
+--- Data Record 18 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 203.0.113.1
+  destinationIPv4Address               (12) : 198.18.1.1
+  sourceTransportPort                   (7) : 20054
+  destinationTransportPort             (11) : 10308
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:01.542
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 203.0.113.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 19 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 192.0.2.106
+  destinationIPv4Address               (12) : 198.18.2.1
+  sourceTransportPort                   (7) : 20356
+  destinationTransportPort             (11) : 10781
+  ingressInterface                     (10) : 5102
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.774
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5002
+  +--- STL Record 2 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5003
+  +--- STL Record 3 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5004
+
+--- Data Record 20 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 203.0.113.199
+  destinationIPv4Address               (12) : 198.18.3.1
+  sourceTransportPort                   (7) : 20925
+  destinationTransportPort             (11) : 10518
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 52
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:01.536
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 203.0.113.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 21 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 192.0.2.164
+  destinationIPv4Address               (12) : 198.18.0.1
+  sourceTransportPort                   (7) : 20714
+  destinationTransportPort             (11) : 10171
+  ingressInterface                     (10) : 5102
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.780
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5002
+  +--- STL Record 2 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5003
+  +--- STL Record 3 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5004
+
+--- Data Record 22 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 192.0.2.75
+  destinationIPv4Address               (12) : 198.18.3.1
+  sourceTransportPort                   (7) : 20907
+  destinationTransportPort             (11) : 10354
+  ingressInterface                     (10) : 5102
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.771
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5002
+  +--- STL Record 2 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5003
+  +--- STL Record 3 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5004
+
+--- Data Record 23 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 203.0.113.32
+  destinationIPv4Address               (12) : 198.18.0.1
+  sourceTransportPort                   (7) : 20503
+  destinationTransportPort             (11) : 10735
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:01.545
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 203.0.113.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 24 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 192.0.2.133
+  destinationIPv4Address               (12) : 198.18.1.1
+  sourceTransportPort                   (7) : 20802
+  destinationTransportPort             (11) : 10040
+  ingressInterface                     (10) : 5102
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.777
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5002
+  +--- STL Record 2 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5003
+  +--- STL Record 3 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 192.0.2.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5004
+
+--- Data Record 25 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 10.0.1.238
+  destinationIPv4Address               (12) : 198.18.2.1
+  sourceTransportPort                   (7) : 20623
+  destinationTransportPort             (11) : 10940
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:00.009
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.0.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 2 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.101.0
+  + sourceIPv4PrefixLength                (9) : 24
+  +--- STL Record 3 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 10.0.119.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 26 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 203.0.113.230
+  destinationIPv4Address               (12) : 198.18.2.1
+  sourceTransportPort                   (7) : 20374
+  destinationTransportPort             (11) : 10945
+  ingressInterface                     (10) : 5001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:01.539
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   900 (0x0384)
+  +--- STL Record 1 --- fields: 3, tmpl:   900 (0x0384) ---
+  + ingressInterface                     (10) : 5001
+  + sourceIPv4Prefix                     (44) : 203.0.113.0
+  + sourceIPv4PrefixLength                (9) : 24
+
+--- Data Record 27 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 198.51.100.254
+  destinationIPv4Address               (12) : 198.18.2.1
+  sourceTransportPort                   (7) : 20192
+  destinationTransportPort             (11) : 10736
+  ingressInterface                     (10) : 5005
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:02.313
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 198.51.100.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5005
+
+--- Data Record 28 --- fields: 12, tmpl:   502 (0x01f6) ---
+  sourceIPv4Address                     (8) : 198.51.100.98
+  destinationIPv4Address               (12) : 198.18.2.1
+  sourceTransportPort                   (7) : 20400
+  destinationTransportPort             (11) : 10196
+  ingressInterface                     (10) : 5005
+  packetDeltaCount                      (2) : 52
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:02.304
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   902 (0x0386)
+  +--- STL Record 1 --- fields: 3, tmpl:   902 (0x0386) ---
+  + sourceIPv4Prefix                     (44) : 198.51.100.0
+  + sourceIPv4PrefixLength                (9) : 24
+  + ingressInterface                     (10) : 5005
+
+--- Data Record 29 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:dcba:8c98:b0d4:8814:19df:44e6
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0002::0001
+  sourceTransportPort                   (7) : 20977
+  destinationTransportPort             (11) : 10211
+  ingressInterface                     (10) : 6004
+  packetDeltaCount                      (2) : 52
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:05.376
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:dcba::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 30 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:abcd:ad99:759b:59c4:036d:6192
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0002::0001
+  sourceTransportPort                   (7) : 20701
+  destinationTransportPort             (11) : 10871
+  ingressInterface                     (10) : 6003
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:04.620
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6003
+  + sourceIPv6Prefix                    (170) : 2001:0db8:abcd::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 31 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:dcba:299d:7197:6da3:fa3e:c1d7
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0003::0001
+  sourceTransportPort                   (7) : 20481
+  destinationTransportPort             (11) : 10243
+  ingressInterface                     (10) : 6004
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:05.385
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:dcba::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 32 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8::7a68:0df1:5a3e:0142:ba1a
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0002::0001
+  sourceTransportPort                   (7) : 20272
+  destinationTransportPort             (11) : 10468
+  ingressInterface                     (10) : 6001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.078
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 2 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d14:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 3 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d00:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 33 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:0100:9567:67ce:29a6:47c2:e7f5
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0001::0001
+  sourceTransportPort                   (7) : 20605
+  destinationTransportPort             (11) : 10145
+  ingressInterface                     (10) : 6102
+  packetDeltaCount                      (2) : 52
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.840
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6002
+  +--- STL Record 2 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6003
+  +--- STL Record 3 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 34 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:abcd:ef9b:f79d:43e7:5adb:4ba9
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0001::0001
+  sourceTransportPort                   (7) : 20043
+  destinationTransportPort             (11) : 10456
+  ingressInterface                     (10) : 6003
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:04.614
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6003
+  + sourceIPv6Prefix                    (170) : 2001:0db8:abcd::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 35 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8::386a:8ff7:401d:58f4:9021
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0001::0001
+  sourceTransportPort                   (7) : 20436
+  destinationTransportPort             (11) : 10035
+  ingressInterface                     (10) : 6001
+  packetDeltaCount                      (2) : 52
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.072
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 2 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d14:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 3 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d00:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 36 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8::196b:4ab8:91cd:4246:b555
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0001::0001
+  sourceTransportPort                   (7) : 20008
+  destinationTransportPort             (11) : 10549
+  ingressInterface                     (10) : 6001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.075
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 2 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d14:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 3 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d00:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 37 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:abcd:7260:248b:d632:fd95:48ff
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0003::0001
+  sourceTransportPort                   (7) : 20968
+  destinationTransportPort             (11) : 10395
+  ingressInterface                     (10) : 6003
+  packetDeltaCount                      (2) : 52
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:04.608
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6003
+  + sourceIPv6Prefix                    (170) : 2001:0db8:abcd::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 38 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:0100:1163:63c2:1dc1:be91:47b0
+  destinationIPv6Address               (28) : 2001:0db8:ffff::0001
+  sourceTransportPort                   (7) : 20316
+  destinationTransportPort             (11) : 10899
+  ingressInterface                     (10) : 6102
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.852
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6002
+  +--- STL Record 2 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6003
+  +--- STL Record 3 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 39 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:dcba:089c:b4d8:bc73:e08c:e4a3
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0003::0001
+  sourceTransportPort                   (7) : 20996
+  destinationTransportPort             (11) : 10605
+  ingressInterface                     (10) : 6004
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:05.388
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:dcba::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 40 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:0100:d765:e5c8:3385:1e74:cdce
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0002::0001
+  sourceTransportPort                   (7) : 20406
+  destinationTransportPort             (11) : 10166
+  ingressInterface                     (10) : 6102
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.846
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6002
+  +--- STL Record 2 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6003
+  +--- STL Record 3 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 41 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8::b466:a281:f876:5d70:c281
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0001::0001
+  sourceTransportPort                   (7) : 20308
+  destinationTransportPort             (11) : 10582
+  ingressInterface                     (10) : 6001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.084
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 2 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d14:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 3 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d00:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 42 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:dcba:4a9e:36de:a650:b93a:ce98
+  destinationIPv6Address               (28) : 2001:0db8:ffff::0001
+  sourceTransportPort                   (7) : 20410
+  destinationTransportPort             (11) : 10058
+  ingressInterface                     (10) : 6004
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:05.382
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:dcba::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 43 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8::5b69:c8be:8bee:1bf0:9f6e
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0002::0001
+  sourceTransportPort                   (7) : 20668
+  destinationTransportPort             (11) : 10326
+  ingressInterface                     (10) : 6001
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.081
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 2 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d14:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+  +--- STL Record 3 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6001
+  + sourceIPv6Prefix                    (170) : 2001:0d00:0001::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 44 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:0100:3062:a68d:cc11:a423:62c4
+  destinationIPv6Address               (28) : 2001:0db8:ffff::0001
+  sourceTransportPort                   (7) : 20018
+  destinationTransportPort             (11) : 10513
+  ingressInterface                     (10) : 6102
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.849
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6002
+  +--- STL Record 2 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6003
+  +--- STL Record 3 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 45 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:abcd:ce9a:32d2:9237:4069:6edd
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0001::0001
+  sourceTransportPort                   (7) : 20020
+  destinationTransportPort             (11) : 10286
+  ingressInterface                     (10) : 6003
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:04.617
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6003
+  + sourceIPv6Prefix                    (170) : 2001:0db8:abcd::
+  + sourceIPv6PrefixLength               (29) : 48
+
+--- Data Record 46 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:dcba:6b9f:f391:7780:a388:ebec
+  destinationIPv6Address               (28) : 2001:0db8:ffff::0001
+  sourceTransportPort                   (7) : 20611
+  destinationTransportPort             (11) : 10760
+  ingressInterface                     (10) : 6004
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:05.379
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:dcba::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 47 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:0100:f664:2087:e255:04c6:e8ba
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0002::0001
+  sourceTransportPort                   (7) : 20484
+  destinationTransportPort             (11) : 10308
+  ingressInterface                     (10) : 6102
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:03.843
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x00
+  _alienInformationElement         (6871/2) : [1] 0x01
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 3 {allOf} tmpl:   903 (0x0387)
+  +--- STL Record 1 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6002
+  +--- STL Record 2 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6003
+  +--- STL Record 3 --- fields: 3, tmpl:   903 (0x0387) ---
+  + sourceIPv6Prefix                    (170) : 2001:0db8:0100::
+  + sourceIPv6PrefixLength               (29) : 48
+  + ingressInterface                     (10) : 6004
+
+--- Data Record 48 --- fields: 12, tmpl:   503 (0x01f7) ---
+  sourceIPv6Address                    (27) : 2001:0db8:abcd:5361:e1c4:07e2:e727:6d8b
+  destinationIPv6Address               (28) : 2001:0db8:ffff:0003::0001
+  sourceTransportPort                   (7) : 20642
+  destinationTransportPort             (11) : 10365
+  ingressInterface                     (10) : 6003
+  packetDeltaCount                      (2) : 51
+  flowStartMilliseconds               (152) : 2024-12-26 00:00:04.611
+  protocolIdentifier                    (4) : 6
+  _alienInformationElement         (6871/1) : [1] 0x01
+  _alienInformationElement         (6871/2) : [1] 0x00
+  _alienInformationElement         (6871/4) : [1] 0x01
+  subTemplateList                     (292) : count: 1 {exactlyOneOf} tmpl:   901 (0x0385)
+  +--- STL Record 1 --- fields: 3, tmpl:   901 (0x0385) ---
+  + ingressInterface                     (10) : 6003
+  + sourceIPv6Prefix                    (170) : 2001:0db8:abcd::
+  + sourceIPv6PrefixLength               (29) : 48
+
+*** Msg Stats: 48 Data Records ***
+
+*** File Stats: 2 Messages, 48 Data Records, 8 Template Records ***

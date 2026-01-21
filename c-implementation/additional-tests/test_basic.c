@@ -63,7 +63,7 @@ void test_template_registration()
     fbTemplate_t *tmpl_902 = fbSessionGetTemplate(session, TRUE, SAV_TMPL_IPV6_INTERFACE_PREFIX, &err);
     fbTemplate_t *tmpl_903 = fbSessionGetTemplate(session, TRUE, SAV_TMPL_IPV4_PREFIX_INTERFACE, &err);
     fbTemplate_t *tmpl_904 = fbSessionGetTemplate(session, TRUE, SAV_TMPL_IPV6_PREFIX_INTERFACE, &err);
-    fbTemplate_t *tmpl_400 = fbSessionGetTemplate(session, TRUE, SAV_MAIN_TEMPLATE_ID, &err);
+    fbTemplate_t *tmpl_400 = fbSessionGetTemplate(session, TRUE, SAV_T1_TEMPLATE, &err);
     
     if (tmpl_901 && tmpl_902 && tmpl_903 && tmpl_904 && tmpl_400) {
         printf("%s\n", TEST_PASS);

@@ -27,7 +27,7 @@ typedef struct sav_record_ctx {
     fbInfoModel_t   *model;           /* Info model with SAV IEs */
     fbSession_t     *session;         /* Session with templates registered */
     fbTemplate_t    *main_tmpl;       /* Main template (400) */
-    fbTemplate_t    *sub_tmpl;        /* Current sub-template (901-904) */
+    fbTemplate_t    *sub_tmpl;        /* Current sub-template (900-903) */
     uint16_t        sub_tmpl_id;      /* Sub-template ID for convenience */
     uint8_t         *stl_buffer;      /* Buffer for SubTemplateList entries */
     size_t          stl_capacity;     /* Buffer capacity in bytes */

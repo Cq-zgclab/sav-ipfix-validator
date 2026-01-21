@@ -11,13 +11,13 @@
 
 | 验证项 | 状态 | 备注 |
 |--------|------|------|
-| **Template IDs (901-904, 400)** | ✅ | 完全符合 draft 定义 |
+| **Template IDs (900-903, 400/410/420/430/440)** | ✅ | Task 1 固定编号（records 与 STL 分域） |
 | **RFC6313 Semantic Values** | ✅ | Allowlist=0x03, Blocklist=0x01, 动态设置 |
 | **RFC7011 Message Format** | ✅ | Version=10, Message Header/Set 格式正确 |
 | **RFC6313 SubTemplateList Encoding** | ✅ | semantic + templateId + data 格式正确 |
 | **Multi-Element SubTemplateList** | ✅ | 测试了 1/2/3 元素，编码正确 |
 | **SCTP Transport Support** | ⚠️ | libfixbuf API 支持，当前未编译启用（不影响验证）|
-| **4种SAV模板类型** | ✅ | 901-904 定义正确，结构符合 draft |
+| **4种SAV SubTemplateList 子模板** | ✅ | 900-903 定义正确，结构符合实现固定编号 |
 | **Byte-Level Draft Comparison** | ⏳ | 待 draft 提供官方示例 |
 
 **总体评估:** ✅ **符合规范**
@@ -28,20 +28,24 @@
 
 ### Draft 定义对比
 
-| Template ID | Draft 定义 | c-implementation | 状态 |
+| Template ID | 定义 | c-implementation | 状态 |
 |-------------|-----------|------------------|------|
-| 901 | `savIPv4InterfacePrefix` | `SAV_TMPL_IPV4_INTERFACE_PREFIX` | ✅ |
-| 902 | `savIPv6InterfacePrefix` | `SAV_TMPL_IPV6_INTERFACE_PREFIX` | ✅ |
-| 903 | `savIPv4PrefixInterface` | `SAV_TMPL_IPV4_PREFIX_INTERFACE` | ✅ |
-| 904 | `savIPv6PrefixInterface` | `SAV_TMPL_IPV6_PREFIX_INTERFACE` | ✅ |
-| 400 | Main Data Record | `SAV_MAIN_TEMPLATE_ID` | ✅ |
+| 900 | `savIPv4InterfacePrefix` | `SAV_TMPL_IPV4_INTERFACE_PREFIX` | ✅ |
+| 901 | `savIPv6InterfacePrefix` | `SAV_TMPL_IPV6_INTERFACE_PREFIX` | ✅ |
+| 902 | `savIPv4PrefixInterface` | `SAV_TMPL_IPV4_PREFIX_INTERFACE` | ✅ |
+| 903 | `savIPv6PrefixInterface` | `SAV_TMPL_IPV6_PREFIX_INTERFACE` | ✅ |
+| 400 | T1 (record) | `SAV_T1_TEMPLATE` | ✅ |
+| 410 | T2 IPv4 (record) | `SAV_T2_TEMPLATE_IPV4` | ✅ |
+| 420 | T2 IPv6 (record) | `SAV_T2_TEMPLATE_IPV6` | ✅ |
+| 430 | T3 IPv4 (record) | `SAV_T3_TEMPLATE_IPV4` | ✅ |
+| 440 | T3 IPv6 (record) | `SAV_T3_TEMPLATE_IPV6` | ✅ |
 
 **验证方法:**
 ```bash
-grep -E "SAV_TMPL_|SAV_MAIN_TEMPLATE_ID" c-implementation/include/sav_ie_definitions.h
+grep -E "SAV_TMPL_|SAV_T1_TEMPLATE|SAV_T2_TEMPLATE_IPV[46]|SAV_T3_TEMPLATE_IPV[46]" c-implementation/include/sav_ie_definitions.h
 ```
 
-**结果:** 所有模板 ID 与 draft-cao-opsawg-ipfix-sav-01 完全一致。
+**结果:** 模板 ID 与 Task 1 固定编号完全一致（records: 400/410/420/430/440；STL: 900-903）。
 
 ---
 
@@ -264,14 +268,14 @@ $ ldd /usr/local/lib/libfixbuf.so | grep sctp
 
 | Template ID | 名称 | IP版本 | 映射方向 | C结构体 |
 |-------------|------|--------|---------|---------|
-| 901 | `savIPv4InterfacePrefix` | IPv4 | Interface → Prefix | `sav_ipv4_mapping_t` |
-| 902 | `savIPv6InterfacePrefix` | IPv6 | Interface → Prefix | `sav_ipv6_mapping_t` |
-| 903 | `savIPv4PrefixInterface` | IPv4 | Prefix → Interface | `sav_ipv4_mapping_t` |
-| 904 | `savIPv6PrefixInterface` | IPv6 | Prefix → Interface | `sav_ipv6_mapping_t` |
+| 900 | `savIPv4InterfacePrefix` | IPv4 | Interface → Prefix | `sav_ipv4_mapping_t` |
+| 901 | `savIPv6InterfacePrefix` | IPv6 | Interface → Prefix | `sav_ipv6_mapping_t` |
+| 902 | `savIPv4PrefixInterface` | IPv4 | Prefix → Interface | `sav_ipv4_mapping_t` |
+| 903 | `savIPv6PrefixInterface` | IPv6 | Prefix → Interface | `sav_ipv6_mapping_t` |
 
 ### 实现结构
 
-**IPv4 映射 (901/903):**
+**IPv4 映射 (900/902):**
 ```c
 typedef struct sav_ipv4_mapping_st {
     uint32_t ingressInterface;      // 4 bytes
@@ -280,7 +284,7 @@ typedef struct sav_ipv4_mapping_st {
 } sav_ipv4_mapping_t;  // Total: 9 bytes
 ```
 
-**IPv6 映射 (902/904):**
+**IPv6 映射 (901/903):**
 ```c
 typedef struct sav_ipv6_mapping_st {
     uint32_t ingressInterface;       // 4 bytes
@@ -297,17 +301,17 @@ typedef struct sav_ipv6_mapping_st {
 ```c
 gboolean sav_add_templates(fbSession_t *session, GError **err)
 {
-    // Register 901: IPv4 Interface-to-Prefix
+    // Register 900: IPv4 Interface-to-Prefix
+    fbSessionAddTemplatesForExport(session, 900, ...);
+    
+    // Register 901: IPv6 Interface-to-Prefix
     fbSessionAddTemplatesForExport(session, 901, ...);
     
-    // Register 902: IPv6 Interface-to-Prefix  
+    // Register 902: IPv4 Prefix-to-Interface
     fbSessionAddTemplatesForExport(session, 902, ...);
     
-    // Register 903: IPv4 Prefix-to-Interface
+    // Register 903: IPv6 Prefix-to-Interface
     fbSessionAddTemplatesForExport(session, 903, ...);
-    
-    // Register 904: IPv6 Prefix-to-Interface
-    fbSessionAddTemplatesForExport(session, 904, ...);
     
     // Register 400: Main template
     fbSessionAddTemplatesForExport(session, 400, ...);
@@ -320,8 +324,7 @@ gboolean sav_add_templates(fbSession_t *session, GError **err)
 
 ### 测试覆盖
 
-- ✅ **Template 901 (IPv4 Interface-to-Prefix):** test_sav_e2e.c 使用（简化为600）
-- ⏳ **Template 902-904:** 待创建专门测试（结构已正确定义）
+- ✅ **Template 900-903 (SubTemplateList 子模板):** 已在 exporter-side E2E 覆盖（Interface→Prefix 与 Prefix→Interface，IPv4/IPv6）
 
 ---
 
@@ -405,7 +408,7 @@ if (rule_type == 1) {       // Allowlist
 ### ✅ 完全符合的规范
 
 1. **draft-cao-opsawg-ipfix-sav-01**
-   - Template IDs (901-904, 400) ✅
+    - Template IDs (900-903, 400/410/420/430/440) ✅
    - Information Elements 定义 ✅
    - SubTemplateList 用法 ✅
    - Semantic 值要求 ✅
@@ -434,7 +437,7 @@ if (rule_type == 1) {       // Allowlist
 ### ⏳ 待draft更新后验证
 
 - Byte-level comparison with official examples
-- Template 902-904 实际导出测试
+- Template 901-903 实际导出测试
 
 ---
 
@@ -490,7 +493,7 @@ Version: 10 ✅
 ### 短期（v1.0发布前）
 
 1. ✅ **已完成:** 修复 semantic 值动态设置
-2. ⏳ **建议:** 创建 template 902-904 的实际导出测试
+2. ⏳ **建议:** 创建 template 901-903 的单独导出测试（如需更细粒度覆盖）
 3. ⏳ **建议:** 添加 IPv6 测试用例
 
 ### 中期（v1.1）

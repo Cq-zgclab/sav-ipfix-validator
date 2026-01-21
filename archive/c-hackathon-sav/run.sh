@@ -53,23 +53,16 @@ echo "🔧 Step 3: Post-processing JSON (fixing byte order, decoding fields)..."
 python3 src/process_ipfix_json.py web/data_raw.json web/data.json
 echo "   ✅ Final JSON created: web/data.json"
 
-# Step 4: Build and start Go web server
+# Step 4: Start HTTP server
 echo ""
-echo "🌐 Step 4: Starting Go HTTP server..."
+echo "🌐 Step 4: Starting HTTP server..."
 cd "$PROJECT_ROOT"
-
-# Build Go server if not exists or source changed
-if [ ! -f "server" ] || [ "server.go" -nt "server" ]; then
-    echo "   Building Go server..."
-    go build -o server server.go
-    echo "   ✅ Server compiled"
-fi
 
 # Check if port 8000 is already in use
 if lsof -Pi :8000 -sTCP:LISTEN -t >/dev/null 2>&1 ; then
     echo "   ⚠️  Port 8000 is already in use"
     echo "   You can manually access http://localhost:8000"
 else
-    echo "   Starting Go HTTP server on port 8000..."
-    ./server 8000
+    echo "   Starting HTTP server on port 8000..."
+    python3 -m http.server 8000 --directory web
 fi
