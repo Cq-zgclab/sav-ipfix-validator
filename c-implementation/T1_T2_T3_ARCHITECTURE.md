@@ -1,9 +1,8 @@
-# SAV IPFIX T1/T2/T3 Template Architecture（新架构）
+# SAV IPFIX T1/T2/T3 Template Architecture（兼容模式说明）
 
 ## 概述
 
-本实现以“固定规则宇宙”为前提，生成语义自证的 spoofed packets，并在 exporter 侧直接聚合导出三套互不依赖的观测模型：
-
+本文件描述 `SAV_EXPORT_T123=1` 时的兼容观测模板（T1/T2/T3）。默认 demo 路径导出 Template A（500/501）以及可选 Template B（502/503）。
 ```
 [Fixed SAV Rule Sets]
                       ↓
@@ -119,7 +118,10 @@ validation mode 由 `savRuleType × savTargetType` 唯一决定：
 cd c-implementation
 make clean
 make tests
-./build/bin/test_test_sav_e2e
+./build/bin/sav_e2e_demo
 ```
 
-该程序会生成 `test_sav_e2e.ipfix`，其中包含 exporter-side 聚合后的 T1/T2/T3 records。
+该程序会生成 `test_sav_e2e.ipfix`。
+
+- 默认：导出 Template A（500/501）和可选 Template B（502/503）
+- 当 `SAV_EXPORT_T123=1`：额外导出 T1/T2/T3（400/410/420/430/440）

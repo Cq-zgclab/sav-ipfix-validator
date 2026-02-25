@@ -1,93 +1,263 @@
-# SAV IPFIX Validator
+# ✅ SAV IPFIX Validator
 
-Source Address Validation (SAV) telemetry using IPFIX protocol.
+Source Address Validation (SAV) telemetry using the IPFIX protocol.
 
-**C 参考实现（hackathon 使用）**
-- 🔧 **C Implementation** - libfixbuf-based exporter/collector prototype
+**C reference implementation for IETF Hackathon demonstration**
 
+This project demonstrates how SAV Information Elements can be exported using structured IPFIX (RFC 6313 SubTemplateList) with clear operational and security narratives.
 
-## 🔧 C Implementation (Research)
+---
 
-Using libfixbuf for IPFIX encoding/decoding.
+# 🚀 Quick Start (Hackathon Demo Entry)
+
+```bash
+./demo/run_demo.sh
+````
+
+Default mode exports:
+
+* **Template A (Operations Monitoring View)**
+* **Template B (Incident Drill-down View)**
+
+To run Template A only:
+
+```bash
+./demo/run_demo.sh template-a
+```
+
+The script:
+
+* Builds the C implementation
+* Executes end-to-end exporter
+* Generates `test_sav_e2e.ipfix`
+* Decodes output using `ipfixDump --rfc5610`
+* Labels Flow Keys vs Attributes for readability
+
+This is the **authoritative demonstration path**.
+
+---
+
+# 📊 Demo Storyline (Template A / B)
+
+The hackathon demo is structured around two complementary views.
+
+---
+
+## Template A — Operations Monitoring View (500 / 501)
+
+Focus:
+
+> “Which interface is under attack? Which SAV policy is active?”
+
+### Flow Keys
+
+* `ingressInterface`
+* `sourceIPv4Prefix` / `sourceIPv6Prefix`
+* `savRuleType`
+* `savTargetType`
+* `savMatchedContentList` (SubTemplateList)
+
+### Non-Key Attributes
+
+* `packetDeltaCount`
+* `octetDeltaCount`
+* `flowStartMilliseconds`
+* `flowEndMilliseconds`
+* `savPolicyAction`
+
+Purpose:
+
+* Aggregated operational visibility
+* Interface-level pressure analysis
+* Rule-type distribution insight
+
+This is the **default monitoring mode**.
+
+---
+
+## Template B — Incident Drill-down View (502 / 503)
+
+Focus:
+
+> “Investigate a specific attack flow and understand why SAV triggered.”
+
+### Flow Keys
+
+* 5-tuple (`source/destination IP`, `ports`, `protocol`)
+* `ingressInterface`
+* `savRuleType`
+* `savTargetType`
+* `savMatchedContentList`
+
+### Non-Key Attributes
+
+* `packetDeltaCount`
+* `flowStartMilliseconds`
+* `savPolicyAction`
+
+Purpose:
+
+* Forensic inspection
+* Rule-trigger explanation
+* Security investigation
+
+Template B is intended for **short-term investigation**, not steady-state export.
+
+---
+
+# 📜 SAV Structured Encoding 
+
+The core semantic component is:
+
+```
+savMatchedContentList
+```
+
+Encoded using **SubTemplateList (STL)** (RFC 6313).
+
+## SubTemplate IDs (900–903)
+
+| ID  | Semantics               |
+| --- | ----------------------- |
+| 900 | IPv4 Interface → Prefix |
+| 901 | IPv6 Interface → Prefix |
+| 902 | IPv4 Prefix → Interface |
+| 903 | IPv6 Prefix → Interface |
+
+Strong constraints enforced in implementation:
+
+* allowlist ⇒ list length ≥ 1 (allOf semantics)
+* blocklist ⇒ list length = 1 (exactlyOneOf semantics)
+* A single Data Record never mixes validation modes
+* `subTemplateID` is consistent within each record
+
+---
+
+# 📐 RFC Alignment
+
+* RFC 7011 — IPFIX Protocol
+* RFC 6313 — Structured Data Export
+* draft-cao-opsawg-ipfix-sav-01 — SAV Information Elements
+
+Enterprise IEs implemented:
+
+* `savRuleType`
+* `savTargetType`
+* `savPolicyAction`
+* `savMatchedContentList`
+
+---
+
+# 🏗 Implementation Architecture
+
+```
+Spoofed Packet Generator
+        ↓
+Exporter-side Aggregation
+        ↓
+Template A / Template B
+        ↓
+IPFIX Export (libfixbuf)
+        ↓
+ipfixDump (RFC5610 decode)
+```
+
+Implementation located in:
+
+```
+c-implementation/
+```
+
+Build manually:
 
 ```bash
 cd c-implementation
-
-# Build + run E2E exporter
-make clean
 make tests
-./build/bin/test_test_sav_e2e
+./build/bin/sav_e2e_demo
 ```
 
-See `c-implementation/README.md` for details.
+However, for hackathon demonstration, always use:
 
-## 📊 Three Demo Scenarios
+```bash
+./demo/run_demo.sh
+```
 
-### 1. Spoofing Attack Detection
-- **Macro**: Time-series showing attack timeline (12 data points)
-- **Micro**: Peak moment forensic detail with matched rules
-- **Value**: Trend analysis + rule-level incident response
+---
 
-### 2. Multi-Interface Distribution  
-- **Macro**: Per-interface traffic distribution (5 interfaces)
-- **Micro**: Detailed rule configuration for hotspots
-- **Value**: Spatial analysis + configuration audit
-
-### 3. Policy Action Effectiveness
-- **Macro**: Action distribution (Discard 84%, Rate-limit 13%, etc.)
-- **Micro**: Trigger details for each policy type
-- **Value**: Quantify enforcement + optimization insights
-
-## 📜 RFC Compliance
-
-- ✅ **RFC 7011**: IPFIX Protocol Specification
-- ✅ **RFC 6313**: SubTemplateList (manual binary encoding)
-- ✅ **draft-cao-opsawg-ipfix-sav-01**: SAV Information Elements
-  - `savRuleType`: Allowlist(0), Blocklist(1)
-  - `savTargetType`: InterfaceBased(0), PrefixBased(1)  
-  - `savPolicyAction`: Permit(0), Discard(1), RateLimit(2), Redirect(3)
-  - `savMatchedContentList`: SubTemplateList with rules
-
-## 📁 Project Structure
+# 📁 Project Structure
 
 ```
 sav-ipfix-validator/
 
-├── c-implementation/           # C implementation (research)
-│   ├── src/                   # Source files
-│   ├── include/               # Headers
-│   ├── tests/                 # Test programs
-│   └── README.md              # C implementation guide
+├── demo/                     # Hackathon demo entry
+│   └── run_demo.sh
 │
-├── docs/                      # Technical documentation
-├── research/                  # Research artifacts
-└── README.md                  # This file
+├── c-implementation/         # C implementation (libfixbuf-based)
+│   ├── src/
+│   ├── include/
+│   ├── tests/
+│   └── README.md
+│
+├── docs/
+│   └── internal/             # Historical validation architectures
+│
+└── README.md
 ```
 
-## 🛠️ Development
+---
 
-实现口径与可复现路径以 C 实现的新架构为准：
+# 🧪 Internal Validation Templates (Historical)
 
-- `c-implementation/T1_T2_T3_ARCHITECTURE.md`
-- `docs/ENGINEERING_GUIDE.md`
+Earlier versions of this project included experimental exporter-side aggregation models (T1/T2/T3 templates, IDs 400–440).
 
-**Key Technical Decisions**:
-- Uses libfixbuf for IPFIX encoding/decoding
-- Uses RFC 6313 SubTemplateList (STL)
-- Requires explicit struct/template alignment (incl. `paddingOctets`)
+These are preserved under:
 
-## 📖 Documentation
+```
+docs/internal/
+```
 
-- `c-implementation/T1_T2_T3_ARCHITECTURE.md` - 新架构说明（权威）
-- `docs/ENGINEERING_GUIDE.md` - 工程实施规范/踩坑 checklist/验收标准（原文汇编）
+They are retained for research traceability and validation history but are **not part of the hackathon demonstration model**.
 
+The authoritative template family for the current design is:
 
-## 🔗 References
+```
+Template A / Template B (500–503)
+```
 
-- [draft-cao-opsawg-ipfix-sav-01](./draft-01-20251102.md)
-- [RFC 7011 - IPFIX Protocol](https://www.rfc-editor.org/rfc/rfc7011)
-- [RFC 6313 - Export of Structured Data](https://www.rfc-editor.org/rfc/rfc6313)
+---
 
-## 📝 License
+# 💾 T1 / T2 / T3 Template Overview (Research Only)
+
+For completeness, the internal research templates were defined as:
+
+| Template | Purpose                   | Flow Key                                                                          | Non-Key Attributes                                                                                             | SubTemplate IDs |
+| -------- | ------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | --------------- |
+| T1       | Rule-Outcome (finest)     | ingressInterface + sourceIP + savRuleType + savTargetType + savMatchedContentList | packetDeltaCount + octetDeltaCount + flowStart/EndMilliseconds + savPolicyAction + observationTimeMilliseconds | 900–903         |
+| T2       | Interface View            | ingressInterface + savRuleType + savTargetType + savMatchedContentList            | packetDeltaCount + octetDeltaCount + flowStart/EndMilliseconds + savPolicyAction                               | 900–903         |
+| T3       | Prefix/Mode (Situational) | sourcePrefix + savRuleType + savTargetType + savMatchedContentList                | packetDeltaCount + octetDeltaCount + flowStart/EndMilliseconds + savPolicyAction                               | 900–903         |
+
+These templates are **mutually independent** and only used for internal testing, not for hackathon demo.
+
+---
+
+# 🛠 Requirements
+
+* libfixbuf (with `ipfixDump` in PATH)
+* make
+* gcc/clang
+
+---
+
+# 🔗 References
+
+* [draft-cao-opsawg-ipfix-sav-01](./draft-01-20251102.md)
+* [draft-ietf-savnet-general-sav-capabilities-02](https://datatracker.ietf.org/doc/draft-ietf-savnet-general-sav-capabilities/)
+* [RFC 7011 — IPFIX Protocol](https://datatracker.ietf.org/doc/rfc7011/
+* [RFC 6313 — Export of Structured Data](https://datatracker.ietf.org/doc/rfc6131/)
+
+---
+
+# 📝 License
 
 Copyright © 2025 Cq-zgclab
+

@@ -1,10 +1,10 @@
 # SAV IPFIX C Implementation - End-to-End Validation
 
-✅ **验证完成** - 完全符合 draft-cao-opsawg-ipfix-sav-01 和 RFC7011/RFC6313/RFC7012
+✅ **验证完成** - 遵循draft-cao-opsawg-ipfix-sav-01 和 RFC7011/RFC6313/RFC7012
 
 ## 📋 项目概述
 
-基于 libfixbuf 3.0.0.alpha2 的 SAV (Source Address Validation) IPFIX 实现，用于验证 draft-cao-opsawg-ipfix-sav-01 规范的正确性。
+基于 libfixbuf 3.0.0.alpha2 的 SAV (Source Address Validation) IPFIX 实现，用于验证 draft-cao-opsawg-ipfix-sav-01 的正确性。
 
 ## 🎯 验证结果
 
@@ -50,7 +50,14 @@ c-implementation/
 ```
 
 ## 🚀 快速开始
+### 0. Hackathon 权威入口（推荐）
 
+```bash
+cd ..
+./demo/run_demo.sh
+```
+
+说明：`demo/run_demo.sh` 是当前项目的权威演示路径，会自动构建、导出并用 `ipfixDump --rfc5610` 展示结果。
 ### 1. 编译
 
 ```bash
@@ -62,13 +69,13 @@ make tests
 ### 2. 运行端到端测试
 
 ```bash
-./build/bin/test_test_sav_e2e
+./build/bin/sav_e2e_demo
 ```
 
 **输出示例:**
 ```
 [OK] Generated semantic-consistent spoofed packets
-[OK] Exported observation models (T1/T2/T3) to test_sav_e2e.ipfix
+[OK] Exported story templates (A/B) to test_sav_e2e.ipfix
 ```
 
 ### 3. 验证 IPFIX 文件格式
@@ -92,11 +99,11 @@ ipfixDump --in test_sav_e2e.ipfix --rfc5610
 
 | ID | 名称 | 说明 |
 |----|------|------|
-| 400 | T1 (record) | Rule-Outcome 视角（最细） |
-| 410 | T2 IPv4 (record) | Interface 视角（包含 sourceIPv4Address） |
-| 420 | T2 IPv6 (record) | Interface 视角（包含 sourceIPv6Address） |
-| 430 | T3 IPv4 (record) | Prefix / Mode 视角（IPv4 前缀聚合） |
-| 440 | T3 IPv6 (record) | Prefix / Mode 视角（IPv6 前缀聚合） |
+| 400 | T1 (record) | 旧观测模板（默认关闭，`SAV_EXPORT_T123=1` 启用） |
+| 410 | T2 IPv4 (record) | 旧观测模板（默认关闭，`SAV_EXPORT_T123=1` 启用） |
+| 420 | T2 IPv6 (record) | 旧观测模板（默认关闭，`SAV_EXPORT_T123=1` 启用） |
+| 430 | T3 IPv4 (record) | 旧观测模板（默认关闭，`SAV_EXPORT_T123=1` 启用） |
+| 440 | T3 IPv6 (record) | 旧观测模板（默认关闭，`SAV_EXPORT_T123=1` 启用） |
 | 500 | Template A IPv4 (record) | 运维监控视角（IPv4） |
 | 501 | Template A IPv6 (record) | 运维监控视角（IPv6） |
 | 502 | Template B IPv4 (record) | 事件调查视角（IPv4，按需启用 `SAV_ENABLE_TEMPLATE_B=1`） |
@@ -116,17 +123,17 @@ ipfixDump --in test_sav_e2e.ipfix --rfc5610
 
 | Mode | 语义 | Rule tuples | subTemplateID |
 |------|------|------------|---------------|
-| M1 | allowlist + interface-based | ingressInterface=5001 allows: 10.0.0.0/24, 10.0.1.0/24, 10.0.2.0/24 | 900 |
-| M2 | allowlist + prefix-based | sourceIPv4Prefix=192.0.2.0/24 allows ingress: 5002, 5003 | 902 |
-| M3 | blocklist + interface-based | ingressInterface=5004 blocks: 203.0.113.0/24 | 900 |
+| M1 | allowlist + interface-based | ingressInterface=5001，基准前缀 10.0.0.0/24（导出阶段可扩展为多元素 list） | 900 |
+| M2 | allowlist + prefix-based | sourceIPv4Prefix=192.0.2.0/24，基准接口 5002（导出阶段可扩展为多元素 list） | 902 |
+| M3 | blocklist + interface-based | ingressInterface=5001 blocks: 203.0.113.0/24 | 900 |
 | M4 | blocklist + prefix-based | sourceIPv4Prefix=198.51.100.0/24 blocks ingress: 5005 | 902 |
 
 ### IPv6
 
 | Mode | 语义 | Rule tuples | subTemplateID |
 |------|------|------------|---------------|
-| M1 | allowlist + interface-based | ingressInterface=6001 allows: 2001:db8:1::/48, 2001:db8:2::/48 | 901 |
-| M2 | allowlist + prefix-based | sourceIPv6Prefix=2001:db8:100::/48 allows ingress: 6001, 6002 | 903 |
+| M1 | allowlist + interface-based | ingressInterface=6001，基准前缀 2001:db8:1::/48（导出阶段可扩展为多元素 list） | 901 |
+| M2 | allowlist + prefix-based | sourceIPv6Prefix=2001:db8:100::/48，基准接口 6002（导出阶段可扩展为多元素 list） | 903 |
 | M3 | blocklist + interface-based | ingressInterface=6003 blocks: 2001:db8:abcd::/48 | 901 |
 | M4 | blocklist + prefix-based | sourceIPv6Prefix=2001:db8:dcba::/48 blocks ingress: 6004 | 903 |
 
@@ -161,7 +168,8 @@ typedef struct sav_data_record_st {
 test_sav_e2e.c 实现了完整的：
 1. ✅ SAV 记录导出 (Exporter)
 2. ✅ IPFIX 文件生成
-3. ✅ 生成并导出 T1/T2/T3（新架构）
+3. ✅ 默认导出 Template A（500/501），可选导出 Template B（502/503）
+4. ✅ 兼容导出旧 T1/T2/T3（需显式启用 `SAV_EXPORT_T123=1`）
 
 ## 🧪 测试覆盖
 
