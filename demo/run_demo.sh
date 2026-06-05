@@ -64,8 +64,14 @@ export SAV_ENABLE_TEMPLATE_B="$enable_b"
 export SAV_DEMO_TEMPLATE_A_CROSSPRODUCT=0
 export SAV_EXPORT_T123=0
 
+if [[ "$enable_b" -eq 0 ]]; then
+  export_label_sed='s/^\[OK\] Exported story templates \(A\/B\) to (.+)$/✅ End-to-End Export Succeeded: Template A flows written to \1/'
+else
+  export_label_sed='s/^\[OK\] Exported story templates \(A\/B\) to (.+)$/✅ End-to-End Export Succeeded: Template A\/B flows written to \1/'
+fi
+
 ./build/bin/sav_e2e_demo | sed -E \
-  -e 's/^\[OK\] Exported story templates \(A\/B\) to (.+)$/✅ End-to-End Export Succeeded: Template A\/B flows written to \1/' \
+  -e "$export_label_sed" \
   -e 's/^✅ E2E EXPORT PASSED$/✅ End-to-End Test Passed: All templates exported successfully/'
 
 out_file="test_sav_e2e.ipfix"
@@ -76,17 +82,25 @@ if [[ ! -f "$out_file" ]]; then
 fi
 
 
+if [[ "$enable_b" -eq 0 ]]; then
+  printf '\n╔══════════════════════════════════════════════════════╗\n'
+  printf '║  Template A · Daily Operations Monitoring            ║\n'
+  printf '║  Aggregates spoofed traffic by interface + source    ║\n'
+  printf '║  prefix + SAV rule type (IPv4 tmpl 500, IPv6 501).   ║\n'
+  printf '╚══════════════════════════════════════════════════════╝\n\n'
+fi
+
 # Template Records + Data Records (RFC5610-friendly output)
 # Label each data-record field with a fixed tag:
-# - Template A Flow Keys: ingressInterface, savRuleType, savTargetType, savMatchedContent, sourceIPv4Prefix
-# - Template B Flow Keys: sourceIPv4Address, destinationIPv4Address, sourceTransportPort, destinationTransportPort, protocolIdentifier, ingressInterface
+# - Template A Flow Keys: ingressInterface, savRuleType, savTargetType, savMatchedContent, sourceIPv4Prefix, sourceIPv6Prefix
+# - Template B Flow Keys: sourceIPv4Address, destinationIPv4Address, sourceIPv6Address, destinationIPv6Address, sourceTransportPort, destinationTransportPort, protocolIdentifier, ingressInterface
 # - Attributes: everything else
 ipfixDump --in "$out_file" --rfc5610 | awk '
   function is_key_A(name, pseudo) {
-    return (name=="ingressInterface" || name=="sourceIPv4Prefix" || name=="subTemplateList" || pseudo=="savRuleType" || pseudo=="savTargetType");
+    return (name=="ingressInterface" || name=="sourceIPv4Prefix" || name=="sourceIPv6Prefix" || name=="subTemplateList" || pseudo=="savRuleType" || pseudo=="savTargetType");
   }
   function is_key_B(name, pseudo) {
-    return (name=="sourceIPv4Address" || name=="destinationIPv4Address" || name=="sourceTransportPort" || name=="destinationTransportPort" || name=="protocolIdentifier" || name=="ingressInterface");
+    return (name=="sourceIPv4Address" || name=="destinationIPv4Address" || name=="sourceIPv6Address" || name=="destinationIPv6Address" || name=="sourceTransportPort" || name=="destinationTransportPort" || name=="protocolIdentifier" || name=="ingressInterface");
   }
   function current_class(tmpl) {
     if (tmpl==500 || tmpl==501) return "A";
